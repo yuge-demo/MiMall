@@ -16,8 +16,8 @@ export default {
     HelloWorld
   },
   mounted() {
-    let url = "https://www.imooc.com/common/adver-getadverlistbymarking";
-    jsonp(url ,{}, () => {
+    let url = "/api/common/adver-getadverlistbymarking";
+    jsonp(url , () => {
 
     })
   }
