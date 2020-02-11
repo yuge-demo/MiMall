@@ -31,6 +31,7 @@ export default {
     clear(key, modele_name) {
         let val = this.getStorage();
         if (modele_name) {
+            if (!val[modele_name]) return;
             delete val[modele_name][key];
         } else {
             delete val[key];
