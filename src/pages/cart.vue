@@ -9,7 +9,7 @@
 import OrderHeader from '../components/orderHeader'
 import NavFooter from '../components/NavFooter'
 export default {
-    name:'nav-home',
+    name:'nav-cart',
     components:{
         OrderHeader,
         NavFooter

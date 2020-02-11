@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name:'order'
+    name:'order-header'
 }
 </script>
 <style scoped>

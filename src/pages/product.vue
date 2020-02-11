@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name:'nav-home',
+    name:'nav-product',
 
 }
 </script>
