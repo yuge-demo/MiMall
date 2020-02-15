@@ -268,6 +268,7 @@ export default {
             .children {
               height: 200px;
               opacity: 1;
+              background-color: #ffffff;
             }
           }
           .children {
