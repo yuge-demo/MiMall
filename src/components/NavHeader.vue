@@ -35,7 +35,7 @@
                 >
                   <a :href="'/#/product/' + item.id" target="_blank">
                     <div class="pro-img">
-                      <img :src="item.mainImage" :alt="item.subtitle" />
+                      <img  :src="item.mainImage"  :alt="item.subtitle" />
                     </div>
                     <div class="pro-name">{{ item.name }}</div>
                     <div class="pro-price">{{ item.price | currency }}</div>
@@ -129,7 +129,7 @@ export default {
       phoneList: []
     };
   },
-  //过滤器 金额 和 日期  
+  //过滤器 金额 和 日期
   filters: {
     currency(val) {
       if (!val) return "0.00";
@@ -147,8 +147,8 @@ export default {
       this.axios
         .get("/products", {
           params: {
-            categoryId: "100012"
-            // pageSize:6
+            categoryId: "100012",
+            // pageSize: 6
           }
         })
         .then(res => {
@@ -268,7 +268,6 @@ export default {
             .children {
               height: 200px;
               opacity: 1;
-              background-color: #ffffff;
             }
           }
           .children {
@@ -282,6 +281,7 @@ export default {
             border: 1px solid $colorH;
             box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, 0.11);
             transition: height 0.5s;
+            background-color: #ffffff;
             .product {
               float: left;
               width: 16.6%;
