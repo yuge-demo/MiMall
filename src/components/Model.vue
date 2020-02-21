@@ -5,7 +5,7 @@
       <!-- 弹框 -->
       <div class="model-dialog">
         <div class="model-header">
-          <span>标题</span>
+          <span>{{title}}</span>
           <a
             href="javascript:;"
             class="icon-close"
@@ -21,18 +21,18 @@
             class="btn"
             v-if="btnType == 1"
             @click="$emit('submit')"
-            >确定</a
+            >{{sureText}}</a
           >
           <a
             href="javascript:;"
             class="btn"
             v-if="btnType == 2"
             @click="$emit('cancle')"
-            >取消</a
+            >{{cannleText}}</a
           >
           <div class="btn-group" v-if="btnType == 3">
-            <a href="javascript:;" class="btn" @click="$emit('submit')">确定</a>
-            <a href="javascript:;" class="btn" @click="$emit('cancle')">取消</a>
+            <a href="javascript:;" class="btn" @click="$emit('submit')">{{sureText}}</a>
+            <a href="javascript:;" class="btn" @click="$emit('cancle')">{{cannleText}}</a>
           </div>
         </div>
       </div>

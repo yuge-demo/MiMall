@@ -35,7 +35,7 @@
                 >
                   <a :href="'/#/product/' + item.id" target="_blank">
                     <div class="pro-img">
-                      <img  :src="item.mainImage"  :alt="item.subtitle" />
+                      <img v-lazy="item.mainImage"  :alt="item.subtitle" />
                     </div>
                     <div class="pro-name">{{ item.name }}</div>
                     <div class="pro-price">{{ item.price | currency }}</div>
@@ -55,7 +55,7 @@
                 <li class="product">
                   <a href target="_blank">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-1.jpg" alt />
+                      <img v-lazy="'/imgs/nav-img/nav-3-1.jpg'" alt />
                     </div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">1399</div>
@@ -64,7 +64,7 @@
                 <li class="product">
                   <a href target="_blank">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-1.jpg" alt />
+                      <img v-lazy="'/imgs/nav-img/nav-3-1.jpg'" alt />
                     </div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">1399</div>
@@ -73,7 +73,7 @@
                 <li class="product">
                   <a href target="_blank">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-1.jpg" alt />
+                      <img v-lazy="'/imgs/nav-img/nav-3-1.jpg'" alt />
                     </div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">1399</div>
@@ -82,7 +82,7 @@
                 <li class="product">
                   <a href target="_blank">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-1.jpg" alt />
+                      <img v-lazy="'/imgs/nav-img/nav-3-1.jpg'" alt />
                     </div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">1399</div>
@@ -91,7 +91,7 @@
                 <li class="product">
                   <a href target="_blank">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-1.jpg" alt />
+                      <img v-lazy="'/imgs/nav-img/nav-3-1.jpg'" alt />
                     </div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">1399</div>
