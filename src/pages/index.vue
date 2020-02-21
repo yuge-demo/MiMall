@@ -79,17 +79,14 @@
           <div class="list-box">
             <div class="list" v-for="(arr, i) in phoneList" :key="i">
               <div class="item" v-for="(item, j) in arr" :key="j">
-                <span :class="{'new-pro' : j%2 ==0 }">新品</span>
-                <div class="item-img "  >
-                  <img
-                    :src="item.mainImage"
-                    alt=""
-                  />
+                <span :class="{ 'new-pro': j % 2 == 0 }">新品</span>
+                <div class="item-img ">
+                  <img :src="item.mainImage" alt="" />
                 </div>
                 <div class="item-info">
-                  <h3>{{item.name}}}</h3>
-                  <p>{{item.subtitle}}</p>
-                  <p class="price">{{item.price}}元</p>
+                  <h3>{{ item.name }}</h3>
+                  <p>{{ item.subtitle }}</p>
+                  <p class="price" @click="addCart">{{ item.price }}元</p>
                 </div>
               </div>
             </div>
@@ -98,10 +95,25 @@
       </div>
     </div>
     <service-bar></service-bar>
+
+    <model
+      title="提示"
+      sureText="查看购物车"
+      btnType="1"
+      modelType="middle"
+      v-bind:showModel="showModel"
+      @submit="goToCart"
+      @cancle="showModel = false"
+    >
+      <template name="body">
+        <p>商品添加成功!</p>
+      </template>
+    </model>
   </div>
 </template>
 <script>
 import ServiceBar from "../components/ServiceBar";
+import Model from "../components/Model";
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 
@@ -110,7 +122,8 @@ export default {
   components: {
     swiperSlide,
     swiper,
-    ServiceBar
+    ServiceBar,
+    Model
   },
   data() {
     return {
@@ -191,7 +204,8 @@ export default {
           img: "/imgs/ads/ads-4.jpg"
         }
       ],
-      phoneList: []
+      phoneList: [],
+      showModel: false
     };
   },
   mounted() {
@@ -203,12 +217,28 @@ export default {
         .get("/products", {
           params: {
             categoryId: 100012,
-            pageSize: 8
+            pageSize: 14
           }
         })
         .then(res => {
+          res.list = res.list.slice(6, 14);
           this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
         });
+    },
+    addCart() {
+      this.showModel = !this.showModel;
+      // this.axios.post('/carts' , {
+      //   productId : id ,
+      //   //选择状态
+      //   selected : true
+      // }).then(() => {
+
+      // }).catch( () => {
+      //   this.showModel = !this.showModel
+      // })
+    },
+    goToCart() {
+      this.$router.push("/cart");
     }
   }
 };
