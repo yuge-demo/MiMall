@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -17,14 +15,27 @@ export default {
       res: {}
     };
   },
-  mounted() {}
+  mounted() {
+    this.getUser();
+    this.getCartCount()
+  },
+  methods:{
+    getUser(){
+      this.axios.get('/user').then( ()=> {
+        //to-do保存到vuex里面
+      })
+    },
+    getCartCount(){
+      this.axios.get('/carts/products/sum').then( () => {
+        //to-do 保存到vuex里面
+      })
+    }
+  }
 };
 </script>
 
 <style lang="scss">
 @import "./assets/scss/reset.scss";
 @import "./assets/scss/config.scss";
-@import "./assets/scss/button.scss"
-// @import "./assets/scss/mixin.scss";
-// @import "./assets/scss/model.scss";
+@import "./assets/scss/button.scss";
 </style>
