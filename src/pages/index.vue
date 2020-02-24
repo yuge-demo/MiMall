@@ -166,11 +166,11 @@ export default {
         },
         {
           id: "45",
-          img: "/imgs/slider/slide-1.jpg"
+          img: "/imgs/slider/slide-4.jpg"
         },
         {
           id: "42",
-          img: "/imgs/slider/slide-1.jpg"
+          img: "/imgs/slider/slide-5.jpg"
         }
       ],
       menuList: [

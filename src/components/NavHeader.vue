@@ -13,7 +13,7 @@
           <a href="javascript:;" v-if="!username" @click="login">登录</a>
           <a href="javascript:;" v-if="username">我的订单</a>
           <a href="javascript:;" class="my-cart" @click="goToCart">
-            <span class="icon-cart"></span>购物车(0)
+            <span class="icon-cart"></span>购物车({{ cartCount }})
           </a>
         </div>
       </div>
@@ -121,13 +121,25 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   name: "nav-header",
   data() {
     return {
-      username: "",
+      //单纯渲染，没有存储时间
+      // username:  this.$store.state.username,
       phoneList: []
     };
+  },
+  computed:{
+    //computed 解决数据延迟问题    (接口读取，会比页面渲染慢所以需要用computed)
+    // username(){
+    //   return this.$store.state.username;
+    // },
+    // cartCount(){
+    //   return this.$store.state.cartCount;
+    // },
+    ...mapState(['username' , 'cartCount'])
   },
   //过滤器 金额 和 日期
   filters: {
@@ -151,7 +163,7 @@ export default {
             // pageSize: 6
           }
         })
-        .then(res => {
+        .then((res) => {
           if (res.list.length > 6) {
             this.phoneList = res.list.slice(0, 6);
           }

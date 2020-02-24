@@ -35,12 +35,14 @@
     </div>
     <div class="footer">
       <div class="footer-link">
-        <a href="https://www.mi.com/" target="_blank">小米商城</a><span>|</span>
-      <a href="https://www.mi.com/" target="_blank">MIUI</a><span>|</span>
-      <a href="https://www.mi.com/" target="_blank">米家</a><span>|</span>
-      <a href="https://www.mi.com/" target="_blank">问题反馈</a><span>|</span>
-      <a href="https://www.mi.com/" target="_blank">廉政举报</a><span>|</span>
-      <a href="https://www.mi.com/" target="_blank">诚信合规</a>
+        <a href="https://www.mi.com/" target="_blank">小米商城</a
+        ><span>|</span> <a href="https://www.mi.com/" target="_blank">MIUI</a
+        ><span>|</span> <a href="https://www.mi.com/" target="_blank">米家</a
+        ><span>|</span>
+        <a href="https://www.mi.com/" target="_blank">问题反馈</a
+        ><span>|</span>
+        <a href="https://www.mi.com/" target="_blank">廉政举报</a><span>|</span>
+        <a href="https://www.mi.com/" target="_blank">诚信合规</a>
       </div>
       <p class="copyright">
         Copyright ©2019 mi.futurefe.com All Rights Reserved.
@@ -50,6 +52,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "login",
   data() {
@@ -70,18 +73,21 @@ export default {
         .then((res) => {
           this.$cookie.set("userId", res.id, { expored: "1M" });
           // to-do 保存用户名  保存用户信息
+          // this.$store.dispatch("saveUserName" ,  res.username);
+          this.saveUserName(res.username);
           this.$router.push("/index");
         });
     },
+    ...mapActions(['saveUserName']),
     register() {
       this.axios
         .post("/user/register", {
-          username : "admin",
-          password : "admin",
-          email : 'admin@163.com'
+          username: "admin , login",
+          password: "admin , login",
+          email: "admin@163.com"
         })
         .then((res) => {
-          alert('注册成功')
+          alert("注册成功");
           return Promise.reject(res);
         });
     }
