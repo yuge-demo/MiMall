@@ -22,7 +22,7 @@ export default new Router({
             path: '/',
             name: 'home',
             component: Home,
-            redirect:'/index',
+            redirect: '/index',
             children: [
                 {
                     path: '/index',
@@ -50,7 +50,8 @@ export default new Router({
             path: '/cart',
             name: 'cart',
             component: Cart
-        }, {
+        },
+        {
             path: '/order',
             name: 'order',
             component: Order,
@@ -68,12 +69,12 @@ export default new Router({
                 {
                     path: 'pay',
                     name: 'order-pay',
-                    component:OrderPay
+                    component: OrderPay
                 },
                 {
-                    path:'alipay',
-                    name:'alipay',
-                    component:AliPay
+                    path: 'alipay',
+                    name: 'alipay',
+                    component: AliPay
                 }
             ]
         }

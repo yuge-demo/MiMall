@@ -165,11 +165,11 @@ export default {
           img: "/imgs/slider/slide-3.jpg"
         },
         {
-          id: "45",
+          id: "",
           img: "/imgs/slider/slide-4.jpg"
         },
         {
-          id: "42",
+          id: "",
           img: "/imgs/slider/slide-5.jpg"
         }
       ],
@@ -220,7 +220,7 @@ export default {
             pageSize: 14
           }
         })
-        .then(res => {
+        .then((res )=> {
           res.list = res.list.slice(6, 14);
           this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
         });

@@ -97,6 +97,8 @@ export default {
 
 <style lang="scss" scoped>
 @import "./../assets/scss/base.scss";
+@import "./../assets/scss/config.scss";
+@import "./../assets/scss/button.scss";
 .login {
   .container {
     height: 113px;
@@ -146,6 +148,7 @@ export default {
         }
         .btn {
           width: 100%;
+          height: 50px;
           line-height: 50px;
           margin-top: 10px;
           font-size: 16px;

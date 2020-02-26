@@ -310,7 +310,7 @@ export default {
                 top: 28px;
                 right: 0;
                 border-left: 1px solid $colorF;
-                height: 100px;
+                height: 100px;          
                 width: 1px;
               }
               &:last-child::before {
