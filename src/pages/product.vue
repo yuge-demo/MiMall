@@ -1,14 +1,14 @@
 <template>
       <div class="product">
-            <product-param>
+            <product-param :title="product.name">
                   <template slot="buy">
-                        <button class="btn">立即购买</button>
+                        <button class="btn" @click="buy">立即购买</button>
                   </template>
             </product-param>
             <div class="content">
                   <div class="item-bg">
-                        <h2>红米Note7</h2>
-                        <h3>4800万拍照千元机 / 品质“小金刚”</h3>
+                        <h2>{{product.name}}</h2>
+                        <h3>{{product.subtitle}}}</h3>
                         <div class="p">
                               <a href="javascridivt:;">全球首款双屏 GP</a>
                               <span>|</span>
@@ -20,8 +20,8 @@
                         </div>
                         <div class="price">
                               <span>
-                                    $
-                                    <em>9000</em>
+                                    ￥
+                                    <em>{{product.price}}</em>
                               </span>
                         </div>
                   </div>
@@ -58,18 +58,18 @@
                               后置960帧电源般超慢动作视频，将眨眼间的美妙展现的连淋漓尽致！
                               <br />更能AI精准分析视频内容，15个场景智能匹配背景音效。
                         </p>
-                        <div class="video-bg" @click="showSlice = true"></div>
-                        <div class="video-box">
+                        <div class="video-bg" @click="showSlide = 'slideDown'"></div>
+                        <div class="video-box" v-show="showSlide" >
                               <!-- 后面背景图片的背景 （遮罩） -->
-                              <div class="overlay" v-if="showSlice"></div>
-                              <div class="video"  :class="{'slide' : showSlice}">
+                              <div class="overlay" v-if="showSlide"></div>
+                              <div class="video" :class="showSlide">
                                     <video
                                           src="/imgs/product/video.mp4"
                                           muted
                                           autoplay
                                           controls="controls"
                                     ></video>
-                                    <span class="icon-close" @click="showSlice = false"></span>
+                                    <span class="icon-close" @click="closeVideo"></span>
                               </div>
                         </div>
                   </div>
@@ -88,7 +88,10 @@ export default {
       },
       data() {
             return {
-                  showSlice:false,
+                  //控制动画效果
+                  showSlide: "",
+                  //商品性息
+                  product: {},
                   swiperOption: {
                         autoplay: true,
                         loop: true,
@@ -101,6 +104,27 @@ export default {
                         }
                   }
             };
+      },
+      mounted() {
+            this.getProductInfo();
+      },
+      methods: {
+            getProductInfo() {
+                  let id = this.$route.params.id;
+                  this.axios.get(`/products/${id}`).then(res => {
+                        this.product = res;
+                  });
+            },
+            buy(){
+                   let id = this.$route.params.id;
+                   this.$router.push(`/detail/${id}`)
+            },
+            closeVideo(){
+                  this.showSlide = 'slideUp';
+                  setTimeout(()=>{
+                         this.showSlide = '';
+                  },600)
+            }
       }
 };
 </script>
@@ -200,26 +224,26 @@ export default {
                               opacity: 0.4;
                               z-index: 10;
                         }
-                        // @keyframes slideDown {
-                        //       from {
-                        //             top: -50%;
-                        //             opacity: 0;
-                        //       }
-                        //       to {
-                        //             top: 50%;
-                        //             opacity: 1;
-                        //       }
-                        // }
-                        // @keyframes slideUp {
-                        //       from {
-                        //             top: 50%;
-                        //             opacity: 1;
-                        //       }
-                        //       to {
-                        //             top: -50%;
-                        //             opacity: 0;
-                        //       }
-                        // }
+                        @keyframes slideDown {
+                              from {
+                                    top: -50%;
+                                    opacity: 0;
+                              }
+                              to {
+                                    top: 50%;
+                                    opacity: 1;
+                              }
+                        }
+                        @keyframes slideUp {
+                              from {
+                                    top: 50%;
+                                    opacity: 1;
+                              }
+                              to {
+                                    top: -50%;
+                                    opacity: 0;
+                              }
+                        }
                         .video {
                               position: fixed;
                               top: -50%;
@@ -228,18 +252,19 @@ export default {
                               z-index: 10;
                               width: 1000px;
                               height: 536px;
-                              opacity: 0;
-                              transition:  all  .6s ;
-                              &.slide{
+                              // opacity: 0;
+                              // transition: all 0.6s;
+                              // &.slide{
+                              //       top: 50%;
+                              //       opacity: 1;
+                              // }
+                              &.slideDown {
+                                    animation: slideDown 0.6s linear;
                                     top: 50%;
-                                    opacity: 1;
                               }
-                              // &.slideDown{
-                              //       animation: slideDown .6s  linear;
-                              // }
-                              //  &.slideUp{
-                              //       animation: slideUp .6s  linear;
-                              // }
+                              &.slideUp {
+                                    animation: slideUp 0.6s linear;
+                              }
                               video {
                                     width: 100%;
                                     height: 100%;

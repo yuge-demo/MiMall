@@ -21,13 +21,13 @@ export default {
       },
       methods: {
             getUser() {
-                  this.axios.get("/user").then((res) => {
+                  this.axios.get("/user").then((res = {}) => {
                         this.$store.dispatch("saveUserName", res.username);
                         //to-do保存到vuex里面
                   });
             },
             getCartCount() {
-                  this.axios.get("/carts/products/sum").then((res )=> {
+                  this.axios.get("/carts/products/sum").then((res =0)=> {
                         this.$store.dispatch("saveCartCount", res);
                         //to-do 保存到vuex里面
                   });
