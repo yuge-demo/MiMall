@@ -58,12 +58,18 @@
                               后置960帧电源般超慢动作视频，将眨眼间的美妙展现的连淋漓尽致！
                               <br />更能AI精准分析视频内容，15个场景智能匹配背景音效。
                         </p>
-                        <div class="video-bg"></div>
+                        <div class="video-bg" @click="showSlice = true"></div>
                         <div class="video-box">
                               <!-- 后面背景图片的背景 （遮罩） -->
-                              <div class="overlay"></div>
-                              <div class="video">
-                                    <video src="/imgs/product/video.mp4"  muted  autoplay controls="controls"></video>
+                              <div class="overlay" v-if="showSlice"></div>
+                              <div class="video"  :class="{'slide' : showSlice}">
+                                    <video
+                                          src="/imgs/product/video.mp4"
+                                          muted
+                                          autoplay
+                                          controls="controls"
+                                    ></video>
+                                    <span class="icon-close" @click="showSlice = false"></span>
                               </div>
                         </div>
                   </div>
@@ -82,10 +88,11 @@ export default {
       },
       data() {
             return {
+                  showSlice:false,
                   swiperOption: {
                         autoplay: true,
                         loop: true,
-                        slidesPerView: 2,
+                        slidesPerView: 3,
                         spaceBetween: 30,
                         freeMode: true,
                         pagination: {
@@ -109,8 +116,9 @@ export default {
                   height: 718px;
                   text-align: center;
                   h2 {
+                        display: inline-block;
                         font-size: 80px;
-                        padding-top: 10px;
+                        margin-top: 10px;
                   }
                   h3 {
                         font-size: 24px;
@@ -159,6 +167,99 @@ export default {
                   }
                   img {
                         width: 100%;
+                  }
+            }
+            .item-video {
+                  height: 1044px;
+                  background-color: #070708;
+                  margin-bottom: 76px;
+                  color: #777777;
+                  text-align: center;
+                  h2 {
+                        font-size: 60px;
+                        padding-top: 82px;
+                        margin-bottom: 47px;
+                  }
+                  p {
+                        font-size: 24px;
+                        padding-bottom: 58px;
+                  }
+                  .video-bg {
+                        background: url("/imgs/product/gallery-1.png") no-repeat
+                              center;
+                        background-size: cover;
+                        width: 1226px;
+                        height: 540px;
+                        margin: 0 auto 120px;
+                        cursor: pointer;
+                  }
+                  .video-box {
+                        .overlay {
+                              @include position(fixed);
+                              background-color: $colorB;
+                              opacity: 0.4;
+                              z-index: 10;
+                        }
+                        // @keyframes slideDown {
+                        //       from {
+                        //             top: -50%;
+                        //             opacity: 0;
+                        //       }
+                        //       to {
+                        //             top: 50%;
+                        //             opacity: 1;
+                        //       }
+                        // }
+                        // @keyframes slideUp {
+                        //       from {
+                        //             top: 50%;
+                        //             opacity: 1;
+                        //       }
+                        //       to {
+                        //             top: -50%;
+                        //             opacity: 0;
+                        //       }
+                        // }
+                        .video {
+                              position: fixed;
+                              top: -50%;
+                              left: 50%;
+                              transform: translate(-50%, -50%);
+                              z-index: 10;
+                              width: 1000px;
+                              height: 536px;
+                              opacity: 0;
+                              transition:  all  .6s ;
+                              &.slide{
+                                    top: 50%;
+                                    opacity: 1;
+                              }
+                              // &.slideDown{
+                              //       animation: slideDown .6s  linear;
+                              // }
+                              //  &.slideUp{
+                              //       animation: slideUp .6s  linear;
+                              // }
+                              video {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    outline: none;
+                              }
+                              .icon-close {
+                                    position: absolute;
+                                    top: 20px;
+                                    right: 20px;
+                                    @include bgImg(
+                                          20px,
+                                          20px,
+                                          "/imgs/icon-close.png"
+                                    );
+                                    border-radius: 100%;
+                                    cursor: pointer;
+                                    z-index: 12;
+                              }
+                        }
                   }
             }
       }
