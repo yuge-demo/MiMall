@@ -8,7 +8,7 @@
             <div class="content">
                   <div class="item-bg">
                         <h2>{{product.name}}</h2>
-                        <h3>{{product.subtitle}}}</h3>
+                        <h3>{{product.subtitle}}</h3>
                         <div class="p">
                               <a href="javascridivt:;">全球首款双屏 GP</a>
                               <span>|</span>
