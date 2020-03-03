@@ -1,8 +1,8 @@
 <template>
       <div class="detail">
-            <product-param></product-param>
-            <div class="wrapper ">
-                  <div class="container clearfix" >
+            <product-param :title="product.name"></product-param>
+            <div class="wrapper">
+                  <div class="container clearfix">
                         <div class="swiper">
                               <swiper :options="swiperOption">
                                     <swiper-slide>
@@ -22,15 +22,14 @@
                               </swiper>
                         </div>
                         <div class="content">
-                              <h2 class="item-title">红米Note7</h2>
+                              <h2 class="item-title">{{product.name}}</h2>
                               <p class="item-info">
-                                    
-                                    相机全新升级|960帧超慢动作 / 手持超级夜景 / 全球首款双频GPS / 骁龙845处理器 / 红
+                                    相机全新升级/960帧超慢动作 / 手持超级夜景 / 全球首款双频GPS / 骁龙845处理器 / 红
                                     <br />外人脸解锁 / AI变焦双摄 / 三星 AMOLED 屏
                               </p>
                               <div class="delivery">小米自营</div>
                               <div class="item-price">
-                                    999元
+                                    {{product.price}}
                                     <span class="del">1999元</span>
                               </div>
                               <div class="line"></div>
@@ -63,10 +62,10 @@
                                     <div class="phone-info clearfix">
                                           <div
                                                 class="fl"
-                                          >{{version==1?'6GB+64GB 全网通':'4GB+64GB 移动4G'}} 深灰色</div>
-                                          <div class="fr">999元</div>
+                                          >{{product.name}} {{version==1?'6GB+64GB 全网通':'4GB+64GB 移动4G'}} 深灰色</div>
+                                          <div class="fr">{{product.price}}元</div>
                                     </div>
-                                    <div class="phone-total">总计：999元</div>
+                                    <div class="phone-total">总计：{{product.price}}元</div>
                               </div>
                               <div class="btn-group">
                                     <a
@@ -79,7 +78,7 @@
                   </div>
             </div>
             <div class="price-info">
-                  <div class="container ">
+                  <div class="container">
                         <h2>价格说明</h2>
                         <div class="desc">
                               <img src="/imgs/detail/item-price.jpeg" alt />
@@ -104,6 +103,10 @@ export default {
       },
       data() {
             return {
+                  err: "",
+                  id: this.$route.params.id,
+                  version: 1,
+                  product: {},
                   swiperOption: {
                         autoplay: true,
                         pagination: {
@@ -112,6 +115,33 @@ export default {
                         }
                   }
             };
+      },
+      mounted() {
+            this.getProductInfo();
+      },
+      methods: {
+            getProductInfo() {
+                  // let id = this.$route.params.id;
+                  this.axios.get(`/products/${this.id}`).then(res => {
+                        this.product = res;
+                  });
+            },
+            addCart() {
+                  this.axios
+                        .post("/carts", {
+                              productId: this.id,
+                              selected: true
+                              //选中状态
+                        })
+                        .then((res = { cartProductVoList: 0 }) => {
+                              this.$store.dispatch(
+                                    "saveCartCount",
+                                    res.cartTotalQuantity
+                              );
+                              this.$router.push("/cart");
+                              // this.$store.dispatch("saveCartCount", res.cartProductVoList.length);
+                        });
+            }
       }
 };
 </script>
@@ -252,7 +282,7 @@ export default {
             }
       }
       .price-info {
-            background-color: #F3F3F3;
+            background-color: #f3f3f3;
             height: 340px;
             h2 {
                   font-size: 24px;

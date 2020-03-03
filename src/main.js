@@ -30,9 +30,11 @@ axios.interceptors.response.use(function (response) {
     if (path != '#/index') {
       window.location.href = '/#/login'
     }
+    return Promise.reject(res)
     //哈系路由 路由是在vue实例中使用的
   } else {
     alert(res.msg)
+    return Promise.reject(res)
   }
 })
 

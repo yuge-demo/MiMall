@@ -94,7 +94,7 @@
                                                       <p>{{ item.subtitle }}</p>
                                                       <p
                                                             class="price"
-                                                            @click="addCart"
+                                                            @click="addCart(item.id)"
                                                       >{{ item.price }}元</p>
                                                 </div>
                                           </div>
@@ -245,7 +245,7 @@ export default {
                                     pageSize: 14
                               }
                         })
-                        .then((res) => {
+                        .then(res => {
                               res.list = res.list.slice(6, 14);
                               this.phoneList = [
                                     res.list.slice(0, 4),
@@ -253,17 +253,23 @@ export default {
                               ];
                         });
             },
-            addCart() {
-                  this.showModel = !this.showModel;
-                  // this.axios.post('/carts' , {
-                  //   productId : id ,
-                  //   //选择状态
-                  //   selected : true
-                  // }).then(() => {
-
-                  // }).catch( () => {
-                  //   this.showModel = !this.showModel
-                  // })
+            addCart(id) {
+                  this.axios
+                        .post("/carts", {
+                              productId: id,
+                              //选择状态
+                              selected: true
+                        })
+                        .then(res => {
+                              this.showModel = true;
+                              this.$store.dispatch(
+                                    "saveCartCount",
+                                    res.cartTotalQuantity
+                              );
+                        })
+                        .catch(() => {
+                              this.showModel = true;
+                        });
             },
             goToCart() {
                   this.$router.push("/cart");
