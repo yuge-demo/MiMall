@@ -1,6 +1,10 @@
 <template>
     <div>
-        <order-header></order-header>
+        <order-header  title="我的购物车">
+            <template>
+                <span slot="tip">温馨提示：参评是否购买成功，以最终下单为准则，请尽快结算</span>
+            </template>
+        </order-header>
         cart
         <nav-footer></nav-footer>
     </div>

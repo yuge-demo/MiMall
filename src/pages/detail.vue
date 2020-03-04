@@ -142,7 +142,7 @@ export default {
                               // this.$store.dispatch("saveCartCount", res.cartProductVoList.length);
                         });
             }
-      }
+      }  
 };
 </script>
 <style  lang='scss'  scoped>
