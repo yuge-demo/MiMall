@@ -22,61 +22,23 @@
                                     <li class="col-1">操作</li>
                               </ul>
                               <ul class="cart-item-list">
-                                    <li class="item-item">
+                                    <li class="item-item" v-for="(item , value) in list" :key="value">
                                           <div class="item-check">
-                                                <span class="checkbox"></span>
+                                                <span class="checkbox" :class="{'checked' : item.productSelected}"></span>
                                           </div>
                                           <div class="item-name">
-                                                <img src="/imgs/item-box-1.png" />
-                                                <span>redmiNode8,千元4800万四摄</span>
+                                                <img v-lazy="item.productMainImage" />
+                                                <span>{{item.productName+ ' , ' +  item.productSubtitle}}</span>
                                           </div>
-                                          <div class="item-price">999元</div>
+                                          <div class="item-price">{{item.productPrice}}</div>
                                           <div class="item-num">
                                                 <div class="num-box">
                                                       <a href="javascript:;">-</a>
-                                                      <span>2</span>
+                                                      <span>{{item.quantity}}</span>
                                                       <a href="javascript:;">+</a>
                                                 </div>
                                           </div>
-                                          <div class="item-total">999</div>
-                                          <div class="item-del"></div>
-                                    </li>
-                                    <li class="item-item">
-                                          <div class="item-check">
-                                                <span class="checkbox"></span>
-                                          </div>
-                                          <div class="item-name">
-                                                <img src="/imgs/item-box-1.png" />
-                                                <span>redmiNode8,千元4800万四摄</span>
-                                          </div>
-                                          <div class="item-price">999元</div>
-                                          <div class="item-num">
-                                                <div class="num-box">
-                                                      <a href="javascript:;">-</a>
-                                                      <span>2</span>
-                                                      <a href="javascript:;">+</a>
-                                                </div>
-                                          </div>
-                                          <div class="item-total">999</div>
-                                          <div class="item-del"></div>
-                                    </li>
-                                    <li class="item-item">
-                                          <div class="item-check">
-                                                <span class="checkbox"></span>
-                                          </div>
-                                          <div class="item-name">
-                                                <img src="/imgs/item-box-1.png" />
-                                                <span>redmiNode8,千元4800万四摄</span>
-                                          </div>
-                                          <div class="item-price">999元</div>
-                                          <div class="item-num">
-                                                <div class="num-box">
-                                                      <a href="javascript:;">-</a>
-                                                      <span>2</span>
-                                                      <a href="javascript:;">+</a>
-                                                </div>
-                                          </div>
-                                          <div class="item-total">999</div>
+                                          <div class="item-total">{{item.productTotalPrice}}</div>
                                           <div class="item-del"></div>
                                     </li>
                               </ul>
@@ -85,12 +47,12 @@
                               <div class="cart-tip fl">
                                     <a href="/#/index">继续购物</a>
                                     共
-                                    <span>2</span>件商品,已选择
-                                    <span>2</span>件
+                                    <span>{{list.length}}</span>件商品,已选择
+                                    <span>{{checkedNum}}</span>件
                               </div>
                               <div class="total fr">
                                     合计：
-                                    <span>2</span>元
+                                    <span>{{cartTotalPrice}}</span>元
                                     <a href="javascript:;" class="btn">去结算</a>
                               </div>
                         </div>
@@ -106,19 +68,32 @@ export default {
       name: "nav-cart",
       data() {
             return {
-                  list: [], //商品列表
+                  list: [],     //商品列表
                   allChecked: false, //是否全选
                   cartTotalPrice: 0, //商品总金额
-                  checkedNum: 0 //选中商品数量
+                  checkedNum: 0  //选中商品数量
             };
       },
       components: {
             OrderHeader,
             NavFooter
+      },
+      mounted(){
+            this.getCartList();
+      },
+      methods:{
+            getCartList(){
+                  this.axios.get('/carts').then((res)=>{
+                        this.list = res.cartProductVoList || [];   //控制商品列表
+                        this.allChecked = res.selectedAll;  //控制是否全选
+                        this.cartTotalPrice = res.cartTotalPrice;  //商品总金额
+                        this.checkedNum = this.list.filter(item => item.productSelected).length; //选中数量
+                  })
+            }
       }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @import "./../assets/scss/config.scss";
 @import "./../assets/scss/base.scss";
 .cart {
@@ -166,7 +141,7 @@ export default {
                               display: flex;
                               align-items: center;
                               height: 125px;
-                              border: 1px solid #e5e5e5;
+                              border-top: 1px solid #e5e5e5;
                               font-size: 16px;
                               .item-check {
                                     flex: 1;
@@ -233,24 +208,24 @@ export default {
                   margin-top: 20px;
                   height: 50px;
                   line-height: 50px;
-                  .cart-tip{
+                  .cart-tip {
                         margin-left: 29px;
-                        a{
+                        a {
                               color: #666666;
                               margin-right: 29px;
                         }
-                        span{
+                        span {
                               color: $colorA;
                               margin: 0 5px;
                         }
                   }
-                  .total{
+                  .total {
                         font-size: 14px;
-                        color: $colorA ;
-                        span{
-                              font-size: 24px;;
+                        color: $colorA;
+                        span {
+                              font-size: 24px;
                         }
-                        a{
+                        a {
                               width: 220px;
                               height: 50px;
                               line-height: 50px;
