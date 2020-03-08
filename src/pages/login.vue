@@ -53,6 +53,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import {Message}  from "element-ui";
 export default {
   name: "login",
   data() {
@@ -87,7 +88,8 @@ export default {
           email: "admin@163.com"
         })
         .then((res) => {
-          alert("注册成功");
+          // alert("注册成功");
+          Message.success("注册成功");
           return Promise.reject(res);
         });
     }

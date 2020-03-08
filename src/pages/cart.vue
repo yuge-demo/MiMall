@@ -79,8 +79,8 @@
                   cannleText="取消"
                   btnType="3"
                   modelType="middle"
-                   v-for="(item , value) in list"
-                   :key="value"
+                  v-for="(item , value) in list"
+                  :key="value"
                   v-bind:showModel="showModel"
                   @submit="goToTrue(item)"
                   @cancle="goToFalse"
@@ -96,6 +96,7 @@
 import OrderHeader from "../components/orderHeader";
 import NavFooter from "../components/NavFooter";
 import Model from "../components/Model";
+import {Message}  from "element-ui"
 export default {
       name: "nav-cart",
       data() {
@@ -135,13 +136,16 @@ export default {
                         selected = item.productSelected; //商品是否选中
                   if (type == "-") {
                         if (quantity == 1) {
-                              alert("商品至少保留一件");
+                              // alert("商品至少保留一件");
+                              Message.warning("商品至少保留一件")
                               return;
                         }
                         --quantity;
                   } else if (type == "+") {
                         if (quantity > item.productStock) {
-                              alert("商品不行超过库存数量");
+                              // alert("商品不行超过库存数量");
+                              Message.warning("商品不行超过库存数量")
+                              Message.
                               return;
                         }
                         ++quantity;
@@ -179,13 +183,13 @@ export default {
                   ).length; //选中数量
             },
             //下单
-            order(){
-                  let isCheck = this.list.every(item=>!item.productSelected);
-                  if(isCheck){
-                        alert('至少有一件商品')
-                  }
-                  else{
-                        this.$router.push('/order/confirm')
+            order() {
+                  let isCheck = this.list.every(item => !item.productSelected);
+                  if (isCheck) {
+                        Message.warning("至少选一件商品")
+                        // alert("至少有一件商品");
+                  } else {
+                        this.$router.push("/order/confirm");
                   }
             }
       }

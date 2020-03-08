@@ -7,7 +7,7 @@
                   <div class="title">
                         <h2>
                               {{title}}
-                                 <slot name="tip"></slot>
+                              <slot name="tip"></slot>
                         </h2>
                   </div>
                   <div class="username">
@@ -17,15 +17,15 @@
       </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
       name: "order-header",
-      props:{
-        title:String
-    },
-    computed:{
-        ...mapState(['username'])
-    }
+      props: {
+            title: String
+      },
+      computed: {
+            ...mapState(["username"])
+      }
 };
 </script>
 <style lang="scss"  scoped>
@@ -66,29 +66,33 @@ export default {
                   }
             }
       }
-      .title , .username{
-          display: inline-block;
-          height: 55px;
-          line-height: 55px;
+      .title,
+      .username {
+            display: inline-block;
+            height: 55px;
+            line-height: 55px;
       }
-      .title{
-          font-size: 28px;
-          float: left;
-          color: #333333;
-          margin-left: 54px;
-          span{
-              margin-left: 17px;
-              font-size: 14px;
-              color: #999999;
-              font-weight: bold;
-          }
+      .title {
+            font-size: 28px;
+            float: left;
+            margin-left: 54px;
+            h2 {
+                  font-size: 28px;
+                  color: #333333;
+            }
+            span {
+                  margin-left: 17px;
+                  font-size: 14px;
+                  color: #999999;
+                  font-weight: 200;
+            }
       }
-      .username{
-          float: right;
-          a{
-              color: #666666;
-              font-size: 16px;
-          }
+      .username {
+            float: right;
+            a {
+                  color: #666666;
+                  font-size: 16px;
+            }
       }
 }
 </style>
