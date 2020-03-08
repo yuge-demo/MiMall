@@ -32,6 +32,7 @@
                                                 <span
                                                       class="checkbox"
                                                       :class="{'checked' : item.productSelected}"
+                                                      @click="updataCart(item)"
                                                 ></span>
                                           </div>
                                           <div class="item-name">
@@ -41,13 +42,19 @@
                                           <div class="item-price">{{item.productPrice}}</div>
                                           <div class="item-num">
                                                 <div class="num-box">
-                                                      <a href="javascript:;">-</a>
+                                                      <a
+                                                            href="javascript:;"
+                                                            @click="updataCart(item , '-')"
+                                                      >-</a>
                                                       <span>{{item.quantity}}</span>
-                                                      <a href="javascript:;">+</a>
+                                                      <a
+                                                            href="javascript:;"
+                                                            @click="updataCart(item , '+')"
+                                                      >+</a>
                                                 </div>
                                           </div>
                                           <div class="item-total">{{item.productTotalPrice}}</div>
-                                          <div class="item-del"></div>
+                                          <div class="item-del" @click="delProduct"></div>
                                     </li>
                               </ul>
                         </div>
@@ -66,12 +73,29 @@
                         </div>
                   </div>
             </div>
+            <model
+                  title="提示"
+                  sureText="确定"
+                  cannleText="取消"
+                  btnType="3"
+                  modelType="middle"
+                   v-for="(item , value) in list"
+                   :key="value"
+                  v-bind:showModel="showModel"
+                  @submit="goToTrue(item)"
+                  @cancle="goToFalse"
+            >
+                  <template name="body">
+                        <p>商品是否删除</p>
+                  </template>
+            </model>
             <nav-footer></nav-footer>
       </div>
 </template>
 <script>
 import OrderHeader from "../components/orderHeader";
 import NavFooter from "../components/NavFooter";
+import Model from "../components/Model";
 export default {
       name: "nav-cart",
       data() {
@@ -79,12 +103,14 @@ export default {
                   list: [], //商品列表
                   allChecked: false, //是否全选
                   cartTotalPrice: 0, //商品总金额
-                  checkedNum: 0 //选中商品数量
+                  checkedNum: 0, //选中商品数量
+                  showModel: false
             };
       },
       components: {
             OrderHeader,
-            NavFooter
+            NavFooter,
+            Model
       },
       mounted() {
             this.getCartList();
@@ -103,11 +129,52 @@ export default {
                         this.renderData(res);
                   });
             },
+            //item是当前数据   type是控制的类型
+            updataCart(item, type) {
+                  let quantity = item.quantity, //商品数量
+                        selected = item.productSelected; //商品是否选中
+                  if (type == "-") {
+                        if (quantity == 1) {
+                              alert("商品至少保留一件");
+                              return;
+                        }
+                        --quantity;
+                  } else if (type == "+") {
+                        if (quantity > item.productStock) {
+                              alert("商品不行超过库存数量");
+                              return;
+                        }
+                        ++quantity;
+                  } else {
+                        selected = !item.productSelected;
+                  }
+                  this.axios
+                        .put(`/carts/${item.productId}`, {
+                              quantity,
+                              selected
+                        })
+                        .then(res => {
+                              this.renderData(res);
+                        });
+            },
+            delProduct() {
+                  this.showModel = true;
+            },
+            goToTrue(item) {
+                  this.axios.delete(`/carts/${item.productId}`).then(res => {
+                        this.renderData(res);
+                  });
+                  this.showModel = false;
+            },
+            goToFalse() {
+                  this.showModel = false;
+            },
             renderData(res) {
                   this.list = res.cartProductVoList || []; //控制商品列表
                   this.allChecked = res.selectedAll; //控制是否全选
                   this.cartTotalPrice = res.cartTotalPrice; //商品总金额
-                  this.checkedNum = this.list.filter(  //过滤数组，选取已经选中的商品
+                  this.checkedNum = this.list.filter(
+                        //过滤数组，选取已经选中的商品
                         item => item.productSelected
                   ).length; //选中数量
             }
