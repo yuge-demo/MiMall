@@ -13,6 +13,7 @@
                                           <span
                                                 class="checkbox"
                                                 v-bind:class="{'checked':allChecked}"
+                                                @click="toggleAll"
                                           ></span>全选
                                     </li>
                                     <li class="col-3">商品数量</li>
@@ -22,13 +23,20 @@
                                     <li class="col-1">操作</li>
                               </ul>
                               <ul class="cart-item-list">
-                                    <li class="item-item" v-for="(item , value) in list" :key="value">
+                                    <li
+                                          class="item-item"
+                                          v-for="(item , value) in list"
+                                          :key="value"
+                                    >
                                           <div class="item-check">
-                                                <span class="checkbox" :class="{'checked' : item.productSelected}"></span>
+                                                <span
+                                                      class="checkbox"
+                                                      :class="{'checked' : item.productSelected}"
+                                                ></span>
                                           </div>
                                           <div class="item-name">
                                                 <img v-lazy="item.productMainImage" />
-                                                <span>{{item.productName+ ' , ' +  item.productSubtitle}}</span>
+                                                <span>{{item.productName+ ' , ' + item.productSubtitle}}</span>
                                           </div>
                                           <div class="item-price">{{item.productPrice}}</div>
                                           <div class="item-num">
@@ -68,27 +76,40 @@ export default {
       name: "nav-cart",
       data() {
             return {
-                  list: [],     //商品列表
+                  list: [], //商品列表
                   allChecked: false, //是否全选
                   cartTotalPrice: 0, //商品总金额
-                  checkedNum: 0  //选中商品数量
+                  checkedNum: 0 //选中商品数量
             };
       },
       components: {
             OrderHeader,
             NavFooter
       },
-      mounted(){
+      mounted() {
             this.getCartList();
       },
-      methods:{
-            getCartList(){
-                  this.axios.get('/carts').then((res)=>{
-                        this.list = res.cartProductVoList || [];   //控制商品列表
-                        this.allChecked = res.selectedAll;  //控制是否全选
-                        this.cartTotalPrice = res.cartTotalPrice;  //商品总金额
-                        this.checkedNum = this.list.filter(item => item.productSelected).length; //选中数量
-                  })
+      methods: {
+            getCartList() {
+                  this.axios.get("/carts").then(res => {
+                        this.renderData(res);
+                  });
+            },
+            toggleAll() {
+                  let url = this.allChecked
+                        ? "/carts/unSelectAll"
+                        : "/carts/selectAll";
+                  this.axios.put(url).then(res => {
+                        this.renderData(res);
+                  });
+            },
+            renderData(res) {
+                  this.list = res.cartProductVoList || []; //控制商品列表
+                  this.allChecked = res.selectedAll; //控制是否全选
+                  this.cartTotalPrice = res.cartTotalPrice; //商品总金额
+                  this.checkedNum = this.list.filter(  //过滤数组，选取已经选中的商品
+                        item => item.productSelected
+                  ).length; //选中数量
             }
       }
 };
