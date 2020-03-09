@@ -30,8 +30,10 @@ export default {
 </script>
 <style lang="scss"  scoped>
 @import "./../assets/scss/base.scss";
+@import "./../assets/scss/config.scss";
 .order-header {
       padding: 30px 0;
+      border-bottom: 2px solid $colorA;
       .header-logo {
             // display: inline-block;
             width: 55px;

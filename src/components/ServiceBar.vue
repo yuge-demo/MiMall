@@ -30,6 +30,9 @@ export default {
     width: 19.9%;
     text-align: center;
     border-right: 1px solid #e5e5e5;
+    &:last-child{
+      border: none;
+    }
   }
   span {
     display: inline-block;

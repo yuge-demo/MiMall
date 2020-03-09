@@ -201,7 +201,6 @@ export default {
 .cart {
       .wrapper {
             background-color: $colorJ;
-            border-top: 1px solid $colorA;
             padding-top: 30px;
             padding-bottom: 114px;
             .cart-box {
