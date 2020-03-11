@@ -73,14 +73,14 @@ export default {
                         })
                         .then(res => {
                               this.$cookie.set("userId", res.id, {
-                                    expored: "Session"
+                                    expored: "1M"
                               });
                               // to-do 保存用户名  保存用户信息
                               // this.$store.dispatch("saveUserName" ,  res.username);
                               this.saveUserName(res.username);
                               this.$router.push({
-                                    path: "/index",
-                                    query: {
+                                    name: "index",
+                                    params: {
                                           from: "login"
                                     }
                               });

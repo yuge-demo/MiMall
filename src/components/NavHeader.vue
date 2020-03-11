@@ -179,7 +179,11 @@ export default {
       },
       mounted() {
             this.getProductList();
-            this.getCartCount();
+            // this.getCartCount();
+            let param = this.$route.params;
+            if (param && param.from == "login") {
+                  this.getCartCount();
+            }
       },
       methods: {
             login() {
@@ -204,10 +208,10 @@ export default {
                         this.$store.dispatch("saveCartCount", res);
                         //to-do 保存到vuex里面
                   });
-                  let params = this.$routr.params;
-                  if (params && params.from == "login") {
-                        this.getCartCount();
-                  }
+                  // let param = this.$route.params;
+                  // if (param && param.from == "login") {
+                  //       this.getCartCount();
+                  // }
             },
             logout() {
                   this.axios.post("/user/logout").then(() => {
