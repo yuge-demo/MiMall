@@ -12,18 +12,21 @@
                               <slot class="body"></slot>
                         </div>
                         <div class="model-footer">
+                              
                               <a
                                     href="javascript:;"
                                     class="btn"
                                     v-if="btnType == 1"
                                     @click="$emit('submit')"
                               >{{ sureText }}</a>
+
                               <a
                                     href="javascript:;"
                                     class="btn"
                                     v-if="btnType == 2"
                                     @click="$emit('cancle')"
                               >{{ cannleText }}</a>
+
                               <div class="btn-group" v-if="btnType == 3">
                                     <a href="javascript:;" class="btn" @click="$emit('submit')">
                                           {{

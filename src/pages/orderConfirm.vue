@@ -56,7 +56,11 @@
                                                       <br />胜利北路
                                                 </div>
                                                 <div class="action">
-                                                      <a href="javascript:;" class="fl">
+                                                      <a
+                                                            href="javascript:;"
+                                                            class="fl"
+                                                            @click="delAddress(item)"
+                                                      >
                                                             <svg class="icon icon-del">
                                                                   <use xlink:href="#icon-del" />
                                                             </svg>
@@ -79,7 +83,11 @@
                                                       class="street"
                                                 >{{item.receiverProvince + ' ' + item.receiverCity + '' + item.receiverDistrict + ' ' +item.receiverAddress}}</div>
                                                 <div class="action">
-                                                      <a href="javascript:;" class="fl">
+                                                      <a
+                                                            href="javascript:;"
+                                                            class="fl"
+                                                            @click="delAddress(item)"
+                                                      >
                                                             <svg class="icon icon-del">
                                                                   <use xlink:href="#icon-del" />
                                                             </svg>
@@ -128,7 +136,7 @@
                                     </div>
                                     <div class="item">
                                           <span class="item-name">商品总价：</span>
-                                          <span class="item-val">2599元</span>
+                                          <span class="item-val">{{cartTotalPrice}}元</span>
                                     </div>
                                     <div class="item">
                                           <span class="item-name">优惠价格：</span>
@@ -148,18 +156,25 @@
                                     <a href="javascript:;" class="btn btn-large">去结算</a>
                               </div>
                         </div>
+
                         <model
-                              title="新增确认"
+                              title="删除确认"
                               btnType="1"
-                              :showModal="showEditModal"
+                              v-bind:showModel="showDelModel"
                               @cancel="showEditModal=false"
-                        ></model>
+                              @submit="submitAddress"
+                        >
+                              <template slot="body">
+                                    <p>是否确定删除</p>
+                              </template>
+                        </model>
                   </div>
             </div>
       </div>
 </template>
 <script>
 import Model from "./../components/Model";
+import { Message } from "element-ui";
 export default {
       name: "order-confirm",
       data() {
@@ -167,7 +182,10 @@ export default {
                   list: [], //收货地址列表
                   cartList: [], // 购物车中需要结算的商品列表
                   cartTotalPrice: 0, //商品总金额
-                  count: 0 //数量
+                  count: 0, //数量
+                  checkItem: {}, //选中商品对象
+                  userAction: "", //用户点击行为   0 就是新增   1就是 编辑  2就是删除
+                  showDelModel: false //是否显示
             };
       },
       components: {
@@ -183,6 +201,35 @@ export default {
                   this.axios.get("/shippings").then(res => {
                         this.list = res.list;
                   });
+            },
+            delAddress(item) {
+                  this.checkItem = item;
+                  this.userAction = 2;
+                  this.showDelModel = true;
+            },
+            //地址删除 编辑 新增功能
+            submitAddress() {
+                  let { checkItem, userAction } = this;
+                  let method, url;
+                  if (userAction == 0) {
+                        (method = "post"), (url = "/shippings");
+                  } else if (userAction == 1) {
+                        (method = "put"), (url = `/shippings/${checkItem.id}`);
+                  } else {
+                        (method = "delete"),
+                              (url = `/shippings/${checkItem.id}`);
+                  }
+                  // this.axios.get(uel)
+                  this.axios[method](url).then(() => {
+                        this.closeModel();
+                        this.getAddressList();
+                        Message.success('操作成功');
+                  });
+            },
+            closeModel(){
+                  this.checkItem = {};
+                  this.userAction = "";
+                  this.showDelModel = false;
             },
             //获取商品列表
             getCartList() {
