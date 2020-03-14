@@ -158,14 +158,43 @@
                         </div>
 
                         <model
-                              title="删除确认"
+                              title="新增确认"
                               btnType="1"
-                              v-bind:showModel="showDelModel"
+                              v-bind:showModel="showEditModel"
                               @cancel="showEditModal=false"
                               @submit="submitAddress"
                         >
-                              <template slot="body">
-                                    <p>是否确定删除</p>
+                              <template name="body">
+                                    <div class="edit-wrap">
+                                          <div class="item">
+                                                <input type="text" class="input" placeholder="姓名" />
+                                                <input type="text" class="input" placeholder="手机号" />
+                                          </div>
+                                          <div class="item">
+                                                <!-- <input type="text" class="input" placeholder="选择省/市/区/街道"> -->
+                                                <select name="province">
+                                                      <option value="北京">北京</option>
+                                                      <option value="北京">天津</option>
+                                                      <option value="北京">河北</option>
+                                                </select>
+                                                <select name="city">
+                                                      <option value="北京">北京</option>
+                                                      <option value="北京">天津</option>
+                                                      <option value="北京">河北</option>
+                                                </select>
+                                                <select name="district">
+                                                      <option value="北京">北京</option>
+                                                      <option value="北京">天津</option>
+                                                      <option value="北京">河北</option>
+                                                </select>
+                                          </div>
+                                          <div class="item">
+                                                <textarea name="street"></textarea>
+                                          </div>
+                                          <div class="item">
+                                                <input type="text" class="input" placeholder="邮编" />
+                                          </div>
+                                    </div>
                               </template>
                         </model>
                   </div>
@@ -185,7 +214,8 @@ export default {
                   count: 0, //数量
                   checkItem: {}, //选中商品对象
                   userAction: "", //用户点击行为   0 就是新增   1就是 编辑  2就是删除
-                  showDelModel: false //是否显示
+                  showDelModel: false, //是否显示删除框
+                  showEditModel: true //是否显示编辑，新增列表框
             };
       },
       components: {
@@ -223,10 +253,10 @@ export default {
                   this.axios[method](url).then(() => {
                         this.closeModel();
                         this.getAddressList();
-                        Message.success('操作成功');
+                        Message.success("操作成功");
                   });
             },
-            closeModel(){
+            closeModel() {
                   this.checkItem = {};
                   this.userAction = "";
                   this.showDelModel = false;
@@ -409,6 +439,36 @@ export default {
                   .btn-group {
                         margin-top: 37px;
                         text-align: right;
+                  }
+            }
+      }
+      .edit-wrap {
+            font-size: 14px;
+            .item {
+                  margin-bottom: 15px;
+                  .input{
+                        display: inline-block;
+                        width: 283px;
+                        height: 40px;
+                        line-height: 40px;
+                        padding-left: 15px;
+                        border: 1px solid #e5e5e5;
+                        &+.input{
+                              margin-left: 14px;
+                        }
+                  }
+                  select{
+                        height: 40px;
+                        line-height: 40px;
+                        border: 1px solid #e5e5e5;
+                        margin-right: 15px;
+                        background-color: #cccccc;
+                  }
+                  textarea{
+                        height: 62px;
+                        width: 100%;
+                        padding: 13px 15px;
+                        box-sizing: border-box;
                   }
             }
       }
