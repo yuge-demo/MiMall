@@ -161,7 +161,7 @@
                               title="新增确认"
                               btnType="1"
                               v-bind:showModel="showEditModel"
-                              @cancel="showEditModal=false"
+                              @cancle="showEditModel=false"
                               @submit="submitAddress"
                         >
                               <template name="body">
@@ -190,7 +190,7 @@
                                                       <option value="北京">天津</option>
                                                       <option value="北京">河北</option>
                                                 </select>
-                                                <select name="city" v-model="checkItm.receiverCity">
+                                                <select name="city" v-model="checkItem.receiverCity">
                                                       <option value="北京">北京</option>
                                                       <option value="北京">天津</option>
                                                       <option value="北京">河北</option>
@@ -331,6 +331,7 @@ export default {
                   this.checkItem = {};
                   this.userAction = "";
                   this.showDelModel = false;
+                  this.showEditModel = false;
             },
             //获取商品列表
             getCartList() {
