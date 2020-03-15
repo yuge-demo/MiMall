@@ -164,7 +164,7 @@
                               @cancel="showEditModal=false"
                               @submit="submitAddress"
                         >
-                              <template slot="body">
+                              <template name="body">
                                     <p>是否确定删除</p>
                               </template>
                         </model>
@@ -286,6 +286,7 @@ export default {
                                     cursor: pointer;
                                     h2 {
                                           height: 27px;
+                                          margin:0px 0px 0px 0px;background-attachment: fixed;background-size:100% 100%;
                                           font-size: 18px;
                                           font-weight: 300;
                                           color: #333333;
