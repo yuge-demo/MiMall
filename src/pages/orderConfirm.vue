@@ -99,7 +99,7 @@
                                                       </a>
                                                 </div>
                                           </div>
-                                          <div class="addr-add">
+                                          <div class="addr-add" @click="openAddressModel">
                                                 <div class="icon-add"></div>
                                                 <div>添加新地址</div>
                                           </div>
@@ -156,19 +156,73 @@
                                     <a href="javascript:;" class="btn btn-large">去结算</a>
                               </div>
                         </div>
-
-                        <model
-                              title="删除确认"
-                              btnType="1"
-                              v-bind:showModel="showDelModel"
-                              @cancel="showEditModal=false"
-                              @submit="submitAddress"
-                        >
-                              <template name="body">
-                                    <p>是否确定删除</p>
-                              </template>
-                        </model>
                   </div>
+                  <model
+                        title="新增确认"
+                        btnType="1"
+                        v-bind:showModel="showEditModel"
+                        @cancle="showEditModel=false"
+                        @submit="submitAddress"
+                  >
+                        <template name="body">
+                              <div class="edit-wrap">
+                                    <div class="item">
+                                          <input
+                                                type="text"
+                                                class="input"
+                                                placeholder="姓名"
+                                                v-model="checkItem.receiverName"
+                                          />
+                                          <input
+                                                type="text"
+                                                class="input"
+                                                placeholder="手机号"
+                                                v-model="checkItem.receiverMobile"
+                                          />
+                                    </div>
+                                    <div class="item">
+                                          <select
+                                                name="province"
+                                                v-model="checkItem.receiverProvince"
+                                          >
+                                                <option value="北京">北京</option>
+                                                <option value="北京">天津</option>
+                                                <option value="北京">河北</option>
+                                          </select>
+                                          <select name="city" v-model="checkItem.receiverCity">
+                                                <option value="北京">北京</option>
+                                                <option value="天津">天津</option>
+                                                <option value="河北">石家庄</option>
+                                          </select>
+                                          <select
+                                                name="district"
+                                                v-model="checkItem.receiverDistrict"
+                                          >
+                                                <option value="北京">昌平区</option>
+                                                <option value="天津">海淀区</option>
+                                                <option value="河北">东城区</option>
+                                                <option value="天津">西城区</option>
+                                                <option value="河北">顺义区</option>
+                                                <option value="天津">房山区</option>
+                                          </select>
+                                    </div>
+                                    <div class="item">
+                                          <textarea
+                                                name="street"
+                                                v-model="checkItem.receiverAddress"
+                                          ></textarea>
+                                    </div>
+                                    <div class="item">
+                                          <input
+                                                type="text"
+                                                class="input"
+                                                placeholder="邮编"
+                                                v-model="checkItem.receiverZip"
+                                          />
+                                    </div>
+                              </div>
+                        </template>
+                  </model>
             </div>
       </div>
 </template>
@@ -185,7 +239,8 @@ export default {
                   count: 0, //数量
                   checkItem: {}, //选中商品对象
                   userAction: "", //用户点击行为   0 就是新增   1就是 编辑  2就是删除
-                  showDelModel: false //是否显示
+                  showDelModel: false, //是否显示删除框
+                  showEditModel: false //是否显示编辑，新增列表框
             };
       },
       components: {
@@ -202,6 +257,12 @@ export default {
                         this.list = res.list;
                   });
             },
+            //打开新增地址弹框
+            openAddressModel() {
+                  (this.userAction = 0),
+                        (this.checkItem = {}),
+                        (this.showEditModel = true);
+            },
             delAddress(item) {
                   this.checkItem = item;
                   this.userAction = 2;
@@ -210,7 +271,9 @@ export default {
             //地址删除 编辑 新增功能
             submitAddress() {
                   let { checkItem, userAction } = this;
-                  let method, url;
+                  let method,
+                        url,
+                        params = {};
                   if (userAction == 0) {
                         (method = "post"), (url = "/shippings");
                   } else if (userAction == 1) {
@@ -219,17 +282,60 @@ export default {
                         (method = "delete"),
                               (url = `/shippings/${checkItem.id}`);
                   }
+                  if (userAction == 0 || userAction == 1) {
+                        let {
+                              receiverName,
+                              receiverMobile,
+                              receiverProvince,
+                              receiverCity,
+                              receiverDistrict,
+                              receiverAddress,
+                              receiverZip
+                        } = checkItem;
+                        let errMsg;
+                        if (!receiverName) {
+                              errMsg = "";
+                        } else if (
+                              !receiverMobile ||
+                              !/\d{11}/.test(receiverMobile)
+                        ) { errMsg = "请输入正确的手机号";
+                        } else if (!receiverProvince) {
+                              errMsg = "需要选择省份";
+                        } else if (!receiverCity) {
+                              errMsg = "需要选择城市";
+                        } else if (!receiverDistrict) {
+                              errMsg = "需要选择区县";
+                        } else if (!receiverAddress) {
+                              errMsg = "需要输入地址";
+                        } else if (!receiverZip) {
+                              errMsg = "请输入邮编地址";
+                        }
+                        if (errMsg) {
+                              Message.error(errMsg);
+                              return;
+                        }
+                        params = {
+                              receiverName,
+                              receiverMobile,
+                              receiverProvince,
+                              receiverCity,
+                              receiverDistrict,
+                              receiverAddress,
+                              receiverZip
+                        };
+                  }
                   // this.axios.get(uel)
-                  this.axios[method](url).then(() => {
+                  this.axios[method](url, params).then(() => {
                         this.closeModel();
                         this.getAddressList();
-                        Message.success('操作成功');
+                        Message.success("操作成功");
                   });
             },
-            closeModel(){
+            closeModel() {
                   this.checkItem = {};
                   this.userAction = "";
                   this.showDelModel = false;
+                  this.showEditModel = false;
             },
             //获取商品列表
             getCartList() {
@@ -286,7 +392,9 @@ export default {
                                     cursor: pointer;
                                     h2 {
                                           height: 27px;
-                                          margin:0px 0px 0px 0px;background-attachment: fixed;background-size:100% 100%;
+                                          margin: 0px 0px 0px 0px;
+                                          background-attachment: fixed;
+                                          background-size: 100% 100%;
                                           font-size: 18px;
                                           font-weight: 300;
                                           color: #333333;
@@ -410,6 +518,36 @@ export default {
                   .btn-group {
                         margin-top: 37px;
                         text-align: right;
+                  }
+            }
+      }
+      .edit-wrap {
+            font-size: 14px;
+            .item {
+                  margin-bottom: 15px;
+                  .input {
+                        display: inline-block;
+                        width: 283px;
+                        height: 40px;
+                        line-height: 40px;
+                        padding-left: 15px;
+                        border: 1px solid #e5e5e5;
+                        & + .input {
+                              margin-left: 14px;
+                        }
+                  }
+                  select {
+                        height: 40px;
+                        line-height: 40px;
+                        border: 1px solid #e5e5e5;
+                        margin-right: 15px;
+                        background-color: #f0f0f0;
+                  }
+                  textarea {
+                        height: 62px;
+                        width: 100%;
+                        padding: 13px 15px;
+                        box-sizing: border-box;
                   }
             }
       }
