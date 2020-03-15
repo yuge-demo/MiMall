@@ -48,7 +48,7 @@
                               <div class="item-address">
                                     <h2 class="addr-title">收货地址</h2>
                                     <div class="addr-list clearfix">
-                                          <div class="addr-info">
+                                          <!-- <div class="addr-info">
                                                 <h2>连宇</h2>
                                                 <div class="phone">13131326700</div>
                                                 <div class="street">
@@ -65,17 +65,23 @@
                                                                   <use xlink:href="#icon-del" />
                                                             </svg>
                                                       </a>
-                                                      <a href="javascript:;" class="fr">
+                                                      <a
+                                                            href="javascript:;"
+                                                            class="fr"
+                                                            @click="editAddressModel(item)"
+                                                      >
                                                             <svg class="icon icon-edit">
                                                                   <use xlink:href="#icon-edit" />
                                                             </svg>
                                                       </a>
                                                 </div>
-                                          </div>
+                                          </div>-->
                                           <div
                                                 class="addr-info"
                                                 v-for="(item ,value ) in list"
                                                 :key="value"
+                                                v-bind:class="{'checked':value == checkIndex}"
+                                                @click="checkIndex=value"
                                           >
                                                 <h2>{{item.receiverName}}</h2>
                                                 <div class="phone">{{item.receiverMobile}}</div>
@@ -92,7 +98,11 @@
                                                                   <use xlink:href="#icon-del" />
                                                             </svg>
                                                       </a>
-                                                      <a href="javascript:;" class="fr">
+                                                      <a
+                                                            href="javascript:;"
+                                                            class="fr"
+                                                            @click="editAddressModel(item)"
+                                                      >
                                                             <svg class="icon icon-edit">
                                                                   <use xlink:href="#icon-edit" />
                                                             </svg>
@@ -153,142 +163,83 @@
                               </div>
                               <div class="btn-group">
                                     <a href="/#/cart" class="btn btn-default btn-large">返回购物车</a>
-                                    <a href="javascript:;" class="btn btn-large">去结算</a>
+                                    <a
+                                          href="javascript:;"
+                                          class="btn btn-large"
+                                          @click="orderSubmit"
+                                    >去结算</a>
                               </div>
                         </div>
-
-                        <model
-                              title="新增确认"
-                              btnType="1"
-                              v-bind:showModel="showEditModel"
-                              @cancle="showEditModel=false"
-                              @submit="submitAddress"
-                        >
-                              <template name="body">
-                                    <div class="edit-wrap">
-                                          <div class="item">
-                                                <input
-                                                      type="text"
-                                                      class="input"
-                                                      placeholder="姓名"
-                                                      v-model="checkItem.receiverName"
-                                                />
-                                                <input
-                                                      type="text"
-                                                      class="input"
-                                                      placeholder="手机号"
-                                                      v-model="checkItem.receiverMobile"
-                                                />
-                                          </div>
-                                          <div class="item">
-                                                <!-- <input type="text" class="input" placeholder="选择省/市/区/街道"> -->
-                                                <select
-                                                      name="province"
-                                                      v-model="checkItem.receiverProvince"
-                                                >
-                                                      <option value="北京">北京</option>
-                                                      <option value="北京">天津</option>
-                                                      <option value="北京">河北</option>
-                                                </select>
-                                                <select name="city" v-model="checkItem.receiverCity">
-                                                      <option value="北京">北京</option>
-                                                      <option value="北京">天津</option>
-                                                      <option value="北京">河北</option>
-                                                </select>
-                                                <select
-                                                      name="district"
-                                                      v-model="checkItem.receiverDistrict"
-                                                >
-                                                      <option value="北京">北京</option>
-                                                      <option value="北京">天津</option>
-                                                      <option value="北京">河北</option>
-                                                </select>
-                                          </div>
-                                          <div class="item">
-                                                <textarea
-                                                      name="street"
-                                                      v-model="checkItem.receiverAddress"
-                                                ></textarea>
-                                          </div>
-                                          <div class="item">
-                                                <input
-                                                      type="text"
-                                                      class="input"
-                                                      placeholder="邮编"
-                                                      v-model="checkItem.receiverZip"
-                                                />
-                                          </div>
-                                    </div>
-                              </template>
-                        </model>
                   </div>
-                  <model
-                        title="新增确认"
-                        btnType="1"
-                        v-bind:showModel="showEditModel"
-                        @cancle="showEditModel=false"
-                        @submit="submitAddress"
-                  >
-                        <template name="body">
-                              <div class="edit-wrap">
-                                    <div class="item">
-                                          <input
-                                                type="text"
-                                                class="input"
-                                                placeholder="姓名"
-                                                v-model="checkItem.receiverName"
-                                          />
-                                          <input
-                                                type="text"
-                                                class="input"
-                                                placeholder="手机号"
-                                                v-model="checkItem.receiverMobile"
-                                          />
-                                    </div>
-                                    <div class="item">
-                                          <select
-                                                name="province"
-                                                v-model="checkItem.receiverProvince"
-                                          >
-                                                <option value="北京">北京</option>
-                                                <option value="北京">天津</option>
-                                                <option value="北京">河北</option>
-                                          </select>
-                                          <select name="city" v-model="checkItem.receiverCity">
-                                                <option value="北京">北京</option>
-                                                <option value="天津">天津</option>
-                                                <option value="河北">石家庄</option>
-                                          </select>
-                                          <select
-                                                name="district"
-                                                v-model="checkItem.receiverDistrict"
-                                          >
-                                                <option value="北京">昌平区</option>
-                                                <option value="天津">海淀区</option>
-                                                <option value="河北">东城区</option>
-                                                <option value="天津">西城区</option>
-                                                <option value="河北">顺义区</option>
-                                                <option value="天津">房山区</option>
-                                          </select>
-                                    </div>
-                                    <div class="item">
-                                          <textarea
-                                                name="street"
-                                                v-model="checkItem.receiverAddress"
-                                          ></textarea>
-                                    </div>
-                                    <div class="item">
-                                          <input
-                                                type="text"
-                                                class="input"
-                                                placeholder="邮编"
-                                                v-model="checkItem.receiverZip"
-                                          />
-                                    </div>
-                              </div>
-                        </template>
-                  </model>
             </div>
+            <model
+                  title="新增确认"
+                  btnType="1"
+                  v-bind:showModel="showEditModel"
+                  @cancle="showEditModel=false"
+                  @submit="submitAddress"
+            >
+                  <template name="body">
+                        <div class="edit-wrap">
+                              <div class="item">
+                                    <input
+                                          type="text"
+                                          class="input"
+                                          placeholder="姓名"
+                                          v-model="checkItem.receiverName"
+                                    />
+                                    <input
+                                          type="text"
+                                          class="input"
+                                          placeholder="手机号"
+                                          v-model="checkItem.receiverMobile"
+                                    />
+                              </div>
+                              <div class="item">
+                                    <select name="province" v-model="checkItem.receiverProvince">
+                                          <option value="北京">北京</option>
+                                          <option value="北京">天津</option>
+                                          <option value="北京">河北</option>
+                                    </select>
+                                    <select name="city" v-model="checkItem.receiverCity">
+                                          <option value="北京">北京</option>
+                                          <option value="天津">天津</option>
+                                          <option value="河北">石家庄</option>
+                                    </select>
+                                    <select name="district" v-model="checkItem.receiverDistrict">
+                                          <option value="北京">昌平区</option>
+                                          <option value="天津">海淀区</option>
+                                          <option value="河北">东城区</option>
+                                          <option value="天津">西城区</option>
+                                          <option value="河北">顺义区</option>
+                                          <option value="天津">房山区</option>
+                                    </select>
+                              </div>
+                              <div class="item">
+                                    <textarea name="street" v-model="checkItem.receiverAddress"></textarea>
+                              </div>
+                              <div class="item">
+                                    <input
+                                          type="text"
+                                          class="input"
+                                          placeholder="邮编"
+                                          v-model="checkItem.receiverZip"
+                                    />
+                              </div>
+                        </div>
+                  </template>
+            </model>
+            <model
+                  title="删除确认"
+                  btnType="1"
+                  v-bind:showModel="showDelModel"
+                  @cancle="showDelModel=false"
+                  @submit="submitAddress"
+            >
+                  <template name="body">
+                        <p>请确认是否删除</p>
+                  </template>
+            </model>
       </div>
 </template>
 <script>
@@ -305,7 +256,8 @@ export default {
                   checkItem: {}, //选中商品对象
                   userAction: "", //用户点击行为   0 就是新增   1就是 编辑  2就是删除
                   showDelModel: false, //是否显示删除框
-                  showEditModel: false //是否显示编辑，新增列表框
+                  showEditModel: false, //是否显示编辑，新增列表框
+                  checkIndex: 0 //是否选中
             };
       },
       components: {
@@ -324,8 +276,14 @@ export default {
             },
             //打开新增地址弹框
             openAddressModel() {
-                  (this.userAction = 0),
-                        (this.checkItem = {}),
+                  (this.checkItem = {}),
+                        (this.userAction = 0),
+                        (this.showEditModel = true);
+            },
+            //编辑edit
+            editAddressModel(item) {
+                  (this.checkItem = item),
+                        (this.userAction = 1),
                         (this.showEditModel = true);
             },
             delAddress(item) {
@@ -359,11 +317,12 @@ export default {
                         } = checkItem;
                         let errMsg;
                         if (!receiverName) {
-                              errMsg = "";
+                              errMsg = "请输入收货名称";
                         } else if (
                               !receiverMobile ||
                               !/\d{11}/.test(receiverMobile)
-                        ) { errMsg = "请输入正确的手机号";
+                        ) {
+                              errMsg = "请输入正确的手机号";
                         } else if (!receiverProvince) {
                               errMsg = "需要选择省份";
                         } else if (!receiverCity) {
@@ -414,6 +373,30 @@ export default {
                               this.count += item.quantity;
                         });
                   });
+            },
+            //订单提交
+            orderSubmit() {
+                  let item = this.list[this.checkIndex];
+                  if (!item) {
+                        Message.error("请选择收货地址");
+                        return;
+                  }
+                  this.axios
+                        .post("/orders", {
+                              shippingId: item.id
+                        })
+                        .then(res => {
+                              this.$router.push({
+                                    path:'/order/pay',
+                                    query:{
+                                          orderNo:res.orderNo
+                                    }
+                                    // name:'order-pay',
+                                    // params:{
+                                    //       orderNo:res.orderNo
+                                    // }
+                              });
+                        });
             }
       }
 };
@@ -480,9 +463,9 @@ export default {
                                                       fill: #ff6700;
                                                 }
                                           }
-                                          &.checked {
-                                                border: 1px solid #ff6700;
-                                          }
+                                    }
+                                    &.checked {
+                                          border: 1px solid #ff6700;
                                     }
                               }
                               .addr-add {
