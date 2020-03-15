@@ -178,7 +178,7 @@ export default {
                   this.allChecked = res.selectedAll; //控制是否全选
                   this.cartTotalPrice = res.cartTotalPrice; //商品总金额
                   this.checkedNum = this.list.filter(
-                        //过滤数组，选取已经选中的商品
+                        //过滤数组,选取已经选中的商品
                         item => item.productSelected
                   ).length; //选中数量
             },

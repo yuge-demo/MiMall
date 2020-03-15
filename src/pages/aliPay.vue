@@ -1,15 +1,17 @@
 <template>
-    <div>
-        orderAlipay
-    </div>
+      <div class="order-pay">
+
+      </div>
 </template>
 <script>
-
 export default {
-    name:'alipay',
-
-}
+      name: "alipay",
+      components:{
+      }
+};
 </script>
-<style scoped>
-
+<style lang="scss"  >
+@import "./../assets/scss/base.scss";
+@import "./../assets/scss/config.scss";
+@import "./../assets/scss/button.scss";
 </style>
