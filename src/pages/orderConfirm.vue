@@ -99,7 +99,7 @@
                                                       </a>
                                                 </div>
                                           </div>
-                                          <div class="addr-add">
+                                          <div class="addr-add" @click="openAddressModel">
                                                 <div class="icon-add"></div>
                                                 <div>添加新地址</div>
                                           </div>
@@ -167,32 +167,56 @@
                               <template name="body">
                                     <div class="edit-wrap">
                                           <div class="item">
-                                                <input type="text" class="input" placeholder="姓名" />
-                                                <input type="text" class="input" placeholder="手机号" />
+                                                <input
+                                                      type="text"
+                                                      class="input"
+                                                      placeholder="姓名"
+                                                      v-model="checkItem.receiverName"
+                                                />
+                                                <input
+                                                      type="text"
+                                                      class="input"
+                                                      placeholder="手机号"
+                                                      v-model="checkItem.receiverMobile"
+                                                />
                                           </div>
                                           <div class="item">
                                                 <!-- <input type="text" class="input" placeholder="选择省/市/区/街道"> -->
-                                                <select name="province">
+                                                <select
+                                                      name="province"
+                                                      v-model="checkItem.receiverProvince"
+                                                >
                                                       <option value="北京">北京</option>
                                                       <option value="北京">天津</option>
                                                       <option value="北京">河北</option>
                                                 </select>
-                                                <select name="city">
+                                                <select name="city" v-model="checkItm.receiverCity">
                                                       <option value="北京">北京</option>
                                                       <option value="北京">天津</option>
                                                       <option value="北京">河北</option>
                                                 </select>
-                                                <select name="district">
+                                                <select
+                                                      name="district"
+                                                      v-model="checkItem.receiverDistrict"
+                                                >
                                                       <option value="北京">北京</option>
                                                       <option value="北京">天津</option>
                                                       <option value="北京">河北</option>
                                                 </select>
                                           </div>
                                           <div class="item">
-                                                <textarea name="street"></textarea>
+                                                <textarea
+                                                      name="street"
+                                                      v-model="checkItem.receiverAddress"
+                                                ></textarea>
                                           </div>
                                           <div class="item">
-                                                <input type="text" class="input" placeholder="邮编" />
+                                                <input
+                                                      type="text"
+                                                      class="input"
+                                                      placeholder="邮编"
+                                                      v-model="checkItem.receiverZip"
+                                                />
                                           </div>
                                     </div>
                               </template>
@@ -215,7 +239,7 @@ export default {
                   checkItem: {}, //选中商品对象
                   userAction: "", //用户点击行为   0 就是新增   1就是 编辑  2就是删除
                   showDelModel: false, //是否显示删除框
-                  showEditModel: true //是否显示编辑，新增列表框
+                  showEditModel: false //是否显示编辑，新增列表框
             };
       },
       components: {
@@ -232,6 +256,12 @@ export default {
                         this.list = res.list;
                   });
             },
+            //打开新增地址弹框
+            openAddressModel() {
+                  (this.userAction = 0),
+                        (this.checkItem = {}),
+                        (this.showEditModel = true);
+            },
             delAddress(item) {
                   this.checkItem = item;
                   this.userAction = 2;
@@ -240,17 +270,58 @@ export default {
             //地址删除 编辑 新增功能
             submitAddress() {
                   let { checkItem, userAction } = this;
-                  let method, url;
+                  let method,
+                        url,
+                        params = {};
                   if (userAction == 0) {
-                        (method = "post"), (url = "/shippings");
-                  } else if (userAction == 1) {
+                        (method = "post"),
+                              (url = "/shippings")
+                  }else if (userAction == 1) {
                         (method = "put"), (url = `/shippings/${checkItem.id}`);
-                  } else {
+                  }else {
                         (method = "delete"),
                               (url = `/shippings/${checkItem.id}`);
                   }
+                  if(userAction ==0 || userAction ==1){
+                        let  {receiverName,receiverMobile,receiverProvince,receiverCity,receiverDistrict,receiverAddress,receiverZip} = checkItem
+                        let  errMsg;
+                        if(!receiverName){
+                              errMsg = '请输入收货人名称'
+                        }
+                        else if(!receiverMobile || !/\d{11}/.test(receiverMobile)){
+                              errMsg = '请输入正确的手机号'
+                         }
+                         else if(!receiverProvince){
+                              errMsg = '需要选择省份'
+                         }
+                         else if(!receiverCity){
+                              errMsg = '需要选择城市'
+                         }
+                         else if(!receiverDistrict){
+                              errMsg = '需要选择区县'
+                         }
+                          else if(!receiverAddress){
+                              errMsg = '需要输入地址'
+                         }
+                         else if(!receiverZip){
+                              errMsg = '请输入邮编地址'
+                         }
+                        if(errMsg){
+                              Message.error('请输入收货人名称');
+                              return;
+                        }
+                        params ={
+                                    receiverName,
+                                    receiverMobile,
+                                    receiverProvince,
+                                    receiverCity,
+                                    receiverDistrict,
+                                    receiverAddress,
+                                    receiverZip
+                        }
+                  }
                   // this.axios.get(uel)
-                  this.axios[method](url).then(() => {
+                  this.axios[method](url,params).then(() => {
                         this.closeModel();
                         this.getAddressList();
                         Message.success("操作成功");
@@ -446,25 +517,25 @@ export default {
             font-size: 14px;
             .item {
                   margin-bottom: 15px;
-                  .input{
+                  .input {
                         display: inline-block;
                         width: 283px;
                         height: 40px;
                         line-height: 40px;
                         padding-left: 15px;
                         border: 1px solid #e5e5e5;
-                        &+.input{
+                        & + .input {
                               margin-left: 14px;
                         }
                   }
-                  select{
+                  select {
                         height: 40px;
                         line-height: 40px;
                         border: 1px solid #e5e5e5;
                         margin-right: 15px;
                         background-color: #cccccc;
                   }
-                  textarea{
+                  textarea {
                         height: 62px;
                         width: 100%;
                         padding: 13px 15px;
