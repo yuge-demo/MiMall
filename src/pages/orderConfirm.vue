@@ -156,6 +156,71 @@
                                     <a href="javascript:;" class="btn btn-large">去结算</a>
                               </div>
                         </div>
+
+                        <model
+                              title="新增确认"
+                              btnType="1"
+                              v-bind:showModel="showEditModel"
+                              @cancle="showEditModel=false"
+                              @submit="submitAddress"
+                        >
+                              <template name="body">
+                                    <div class="edit-wrap">
+                                          <div class="item">
+                                                <input
+                                                      type="text"
+                                                      class="input"
+                                                      placeholder="姓名"
+                                                      v-model="checkItem.receiverName"
+                                                />
+                                                <input
+                                                      type="text"
+                                                      class="input"
+                                                      placeholder="手机号"
+                                                      v-model="checkItem.receiverMobile"
+                                                />
+                                          </div>
+                                          <div class="item">
+                                                <!-- <input type="text" class="input" placeholder="选择省/市/区/街道"> -->
+                                                <select
+                                                      name="province"
+                                                      v-model="checkItem.receiverProvince"
+                                                >
+                                                      <option value="北京">北京</option>
+                                                      <option value="北京">天津</option>
+                                                      <option value="北京">河北</option>
+                                                </select>
+                                                <select name="city" v-model="checkItem.receiverCity">
+                                                      <option value="北京">北京</option>
+                                                      <option value="北京">天津</option>
+                                                      <option value="北京">河北</option>
+                                                </select>
+                                                <select
+                                                      name="district"
+                                                      v-model="checkItem.receiverDistrict"
+                                                >
+                                                      <option value="北京">北京</option>
+                                                      <option value="北京">天津</option>
+                                                      <option value="北京">河北</option>
+                                                </select>
+                                          </div>
+                                          <div class="item">
+                                                <textarea
+                                                      name="street"
+                                                      v-model="checkItem.receiverAddress"
+                                                ></textarea>
+                                          </div>
+                                          <div class="item">
+                                                <input
+                                                      type="text"
+                                                      class="input"
+                                                      placeholder="邮编"
+                                                      v-model="checkItem.receiverZip"
+                                                />
+                                          </div>
+                                    </div>
+                              </template>
+                        </model>
                   </div>
                   <model
                         title="新增确认"
