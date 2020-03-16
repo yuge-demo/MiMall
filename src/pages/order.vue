@@ -1,14 +1,14 @@
 <template>
-    <div>
-        <order-header  :title="title">
-            <template slot="tip">
-                <span>{{tip}}</span>
-            </template>
-        </order-header>
-        <router-view></router-view>
-        <service-bar></service-bar>
-        <nav-footer></nav-footer>
-    </div>
+      <div>
+            <order-header :title="title">
+                  <template slot="tip">
+                        <span>{{tip}}</span>
+                  </template>
+            </order-header>
+            <router-view></router-view>
+            <service-bar></service-bar>
+            <nav-footer></nav-footer>
+      </div>
 </template>
 <script>
 import OrderHeader from '../components/orderHeader'
@@ -41,9 +41,12 @@ export default {
             this.title = '订单支付',
             this.tip = '请谨防钓鱼链接或诈骗电话，了解更多'
         }
+        else{
+            this.title = '支付宝支付',
+            this.tip = '请谨防钓鱼链接或诈骗电话，了解更多'
+        }
     }
 }
 </script>
 <style scoped>
-
 </style>

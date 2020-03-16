@@ -20,7 +20,11 @@
                                           </p>
                                           <p>
                                                 订单详情
-                                                <em class="icon-down" :class="{'up' :showDetail}" @click="showDetail=!showDetail"></em>
+                                                <em
+                                                      class="icon-down"
+                                                      :class="{'up' :showDetail}"
+                                                      @click="showDetail=!showDetail"
+                                                ></em>
                                           </p>
                                     </div>
                               </div>
@@ -31,9 +35,7 @@
                                     </div>
                                     <div class="item">
                                           <div class="detail-title">收货信息：</div>
-                                          <div
-                                                class="detail-info"
-                                          >{{addressInfo}}</div>
+                                          <div class="detail-info">{{addressInfo}}</div>
                                     </div>
                                     <div class="item good">
                                           <div class="detail-title">商品名称：</div>
@@ -60,8 +62,16 @@
                               <h3>选择以下支付方式付款</h3>
                               <div class="pay-way">
                                     <p>支付平台</p>
-                                    <div class="pay pay-ali checked"></div>
-                                    <div class="pay pay-wechat"></div>
+                                    <div
+                                          class="pay pay-ali"
+                                          :class="{'checked' : payTpe == 1}"
+                                          @click="paySubmit(1)"
+                                    ></div>
+                                    <div
+                                          class="pay pay-wechat"
+                                          :class="{'checked' : payTpe == 2}"
+                                          @click="paySubmit(2)"
+                                    ></div>
                               </div>
                         </div>
                   </div>
@@ -76,8 +86,9 @@ export default {
                   orderNo: this.$route.query.orderNo,
                   addressInfo: "", //收货人地址
                   orderDetail: [], //商品列表渲染
-                  showDetail:false,  //商品列表是否显示
-                  payment:0, //总金额
+                  showDetail: false, //商品列表是否显示
+                  payment: 0, //总金额
+                  payTpe: "" //alipay支付和wechat支付
             };
       },
       components: {},
@@ -95,8 +106,14 @@ export default {
                                                                 ${item.receiverDistrict}
                                                                 ${item.receiverAddress}`;
                         this.orderDetail = res.orderItemVoList;
-                        this.payment = res.payment
+                        this.payment = res.payment;
                   });
+            },
+            paySubmit(payType) {
+                  if (payType == 1) {
+                        window.open('/#/order/alipay?orderId='+this.orderNo,'-blank');
+                        // this.$router.push('/order/alipay?orderId='+this.orderNo,'-blank')
+                  }
             }
       }
 };
@@ -213,7 +230,7 @@ export default {
                               &:last-child {
                                     margin-left: 20px;
                               }
-                              &:checked {
+                              &.checked {
                                     border: 1px solid #ff6700;
                               }
                         }
