@@ -16,7 +16,7 @@ export default {
             };
       },
       components: {
-            Loading
+            Loading,
       },
       mounted() {
             this.paySubmit()
@@ -31,6 +31,7 @@ export default {
                   }).then((res)=>{
                         this.content = res.content;
                         setTimeout(()=>{
+                              //提交
                               document.forms[0].submit();
                         },100)
                   })

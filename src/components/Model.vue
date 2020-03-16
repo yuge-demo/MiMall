@@ -33,7 +33,7 @@
                                           sureText
                                           }}
                                     </a>
-                                    <a href="javascript:;" class="btn" @click="$emit('cancle')">
+                                    <a href="javascript:;" class="btn btn-default" @click="$emit('cancle')">
                                           {{
                                           cannleText
                                           }}

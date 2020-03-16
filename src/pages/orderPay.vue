@@ -76,9 +76,27 @@
                         </div>
                   </div>
             </div>
+            <scan-pay-code v-if="showPay" @close="showClose" :img="payImg"></scan-pay-code>
+            <model
+            title="支付确认"
+            btnType = "3"
+            :showModel = "showPayModel"
+            sureText = "查看订单"
+            cannleText = "未支付"
+            @cancle = "showPayModel = false"
+            @submit="goOrderList"
+            >
+            <template name="body">
+                  <p>支付成功？</p>
+            </template>
+            </model>
       </div>
 </template>
 <script>
+import ScanPayCode from "../components/ScanPayCode";
+import Model from "../components/Model"
+import { Message } from "element-ui";
+import QRCode from "qrcode";
 export default {
       name: "order-pay",
       data() {
@@ -88,10 +106,17 @@ export default {
                   orderDetail: [], //商品列表渲染
                   showDetail: false, //商品列表是否显示
                   payment: 0, //总金额
-                  payTpe: "" //alipay支付和wechat支付
+                  payTpe: "", //alipay支付和wechat支付
+                  showPay: false, //微信支付是否显示
+                  payImg: "", //wechat微信支付二维码
+                  showPayModel : false  ,
+                  T:'' //定时器
             };
       },
-      components: {},
+      components: {
+            ScanPayCode,
+            Model
+      },
       mounted() {
             this.getOrderDetail();
       },
@@ -111,9 +136,52 @@ export default {
             },
             paySubmit(payType) {
                   if (payType == 1) {
-                        window.open('/#/order/alipay?orderId='+this.orderNo,'-blank');
+                        window.open(
+                              "/#/order/alipay?orderId=" + this.orderNo,
+                              "-blank"
+                        );
                         // this.$router.push('/order/alipay?orderId='+this.orderNo,'-blank')
+                  } else {
+                        this.axios
+                              .post("/pay", {
+                                    orderId: this.orderNo,
+                                    orderName: "weChat-pay", //扫码支付时订单名称
+                                    amount: 0.01, //单位元
+                                    payType: 2 //1支付宝，2微信
+                              })
+                              .then(res => {
+                                    let content = res.content;
+                                    QRCode.toDataURL(content)
+                                          .then(url => {
+                                                this.showPay = true;
+                                                this.payImg = url;
+                                                this.loopOrderState();
+                                          })
+                                          .catch(() => {
+                                                Message.error("微信支付超时");
+                                          });
+                              });
                   }
+            },
+            showClose() {
+                  this.showPay = false;
+                  this.showPayModel = true;
+                   clearInterval(this.T)
+            },
+            //轮循当前订单支付状态  查看订单详情 
+            //订单状态 0 以取消 10 未付款 20已经付款 40以收货 50取消交易 60 交易关闭 
+            loopOrderState(){
+                 this.T =  setInterval(() => {
+                        this.axios.get(`/orders/${this.orderNo}`).thne((res)=>{
+                              if(res.status == 20){
+                                    clearInterval(this.T)
+                                    this.getOrderDetail();
+                              }
+                        })
+                  }, 1000);
+            },
+            goOrderList(){
+                  this.$router.push('/order/list')
             }
       }
 };
