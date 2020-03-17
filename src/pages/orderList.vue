@@ -9,6 +9,7 @@
             <div class="wrapper">
                   <div class="container">
                         <div class="order-box">
+                              <loading v-if="Loading"></loading>
                               <div class="order" v-for="(item, value) in list" :key="value">
                                     <div class="order-title">
                                           <div class="item-info">
@@ -27,29 +28,40 @@
                                           </div>
                                     </div>
                                     <div class="order-content clearfix">
-                                          <div class="good-box fl" >
-                                                <div class="good-list" v-for="(order , i) in item.orderItemVoList" :key="i">
+                                          <div class="good-box fl">
+                                                <div
+                                                      class="good-list"
+                                                      v-for="(order , i) in item.orderItemVoList"
+                                                      :key="i"
+                                                >
                                                       <div class="good-img">
-                                                            <img
-                                                                  v-lazy="order.productImage"
-                                                            />
+                                                            <img v-lazy="order.productImage" />
                                                       </div>
                                                       <div class="good-name">
-                                                            <div class="p-name">{{order.productName}}</div>
-                                                            <div class="p-money">{{order.currentUnitPrice+ "×" +order.quantity}}元</div>
+                                                            <div
+                                                                  class="p-name"
+                                                            >{{order.productName}}</div>
+                                                            <div
+                                                                  class="p-money"
+                                                            >{{order.currentUnitPrice+ "×" +order.quantity}}元</div>
                                                       </div>
                                                 </div>
                                           </div>
-                                          <div class="good-state fr" v-if="item.status == 10" >
-                                                <a href="javascript:;" @click="goPay(item.orderNo)">{{item.statusDesc}}</a>
+                                          <div class="good-state fr" v-if="item.status == 10">
+                                                <a
+                                                      href="javascript:;"
+                                                      @click="goPay(item.orderNo)"
+                                                >{{item.statusDesc}}</a>
                                           </div>
-                                          <div class="good-state fr" v-else >
-                                                <a href="javascript:;" @click="goPay(item.orderNo)">{{item.statusDesc}}</a>
+                                          <div class="good-state fr" v-else>
+                                                <a
+                                                      href="javascript:;"
+                                                      @click="goPay(item.orderNo)"
+                                                >{{item.statusDesc}}</a>
                                           </div>
-                                          
-                                          
                                     </div>
                               </div>
+                              <no-data v-if="!Loading && list.length==0"></no-data>
                         </div>
                   </div>
             </div>
@@ -57,42 +69,53 @@
 </template>
 <script>
 import OrderHeader from "./../components/orderHeader";
+import Loading from "../components/Loading";
+import NoData from "../components/NoData"
 export default {
       name: "order-list",
       data() {
             return {
-                  list: []
+                  list: [],
+                  Loading: true
             };
       },
       components: {
-            OrderHeader
+            OrderHeader,
+            Loading,
+            NoData
       },
       mounted() {
-          this.getOrderList()
+            this.getOrderList();
       },
       methods: {
             getOrderList() {
-                  this.axios.get("/orders").then(res => {
-                      this.list = res.list
-                  });
+                  this.axios
+                        .get("/orders")
+                        .then(res => {
+                              this.list = res.list || [];
+                              this.Loading = false;
+                        })
+                        .catch(() => {
+                              this.Loading = false;
+                        });
             },
-            goPay(orderNo){
-                // this.$router.push('/order/list')
-                // this.$router.push({
-                //     name:'order-list',
-                    // params:{
-                    //     orderNo
-                    // }
-                    //  query:{
-                //         orderNo
-                //     }
-                // })
-                this.$router.push({
-                    path:'/order/list',
-                    query:{
-                        orderNo
-                    }
-                })
+            goPay(orderNo) {
+                  // this.$router.push('/order/list')
+                  // this.$router.push({
+                  //     name:'order-list',
+                  // params:{
+                  //     orderNo
+                  // }
+                  //  query:{
+                  //         orderNo
+                  //     }
+                  // })
+                  this.$router.push({
+                        path: "/order/list",
+                        query: {
+                              orderNo
+                        }
+                  });
             }
       }
 };
