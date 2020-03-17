@@ -1,21 +1,171 @@
 <template>
-    <div>
-         <order-header title="订单列表">
+      <div class="order-list">
+            <order-header title="订单列表">
                   <template slot="tip">
                         <span>请谨防钓鱼链接或诈骗电话，了解更多</span>
                   </template>
             </order-header>
-    </div>
+
+            <div class="wrapper">
+                  <div class="container">
+                        <div class="order-box">
+                              <div class="order" v-for="(item, value) in list" :key="value">
+                                    <div class="order-title">
+                                          <div class="item-info">
+                                                {{item.createTime}}
+                                                <span>|</span>
+                                                {{item.receiverName}}
+                                                <span>|</span>
+                                                订单号:{{item.orderNo}}
+                                                <span>|</span>
+                                                {{item.paymentTypeDesc}}
+                                          </div>
+                                          <div class="item-money">
+                                                <span>应付金额：</span>
+                                                <span class="money">{{item.payment}}</span>
+                                                <span>元</span>
+                                          </div>
+                                    </div>
+                                    <div class="order-content clearfix">
+                                          <div class="good-box fl" >
+                                                <div class="good-list" v-for="(order , i) in item.orderItemVoList" :key="i">
+                                                      <div class="good-img">
+                                                            <img
+                                                                  v-lazy="order.productImage"
+                                                            />
+                                                      </div>
+                                                      <div class="good-name">
+                                                            <div class="p-name">{{order.productName}}</div>
+                                                            <div class="p-money">{{order.currentUnitPrice+ "×" +order.quantity}}元</div>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          <div class="good-state fr" v-if="item.status == 10" >
+                                                <a href="javascript:;" @click="goPay(item.orderNo)">{{item.statusDesc}}</a>
+                                          </div>
+                                          <div class="good-state fr" v-else >
+                                                <a href="javascript:;" @click="goPay(item.orderNo)">{{item.statusDesc}}</a>
+                                          </div>
+                                          
+                                          
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
 </template>
 <script>
-import OrderHeader from "./../components/orderHeader"
+import OrderHeader from "./../components/orderHeader";
 export default {
-    name:'order-list',
-    components:{
-        OrderHeader
-    }
-}
+      name: "order-list",
+      data() {
+            return {
+                  list: []
+            };
+      },
+      components: {
+            OrderHeader
+      },
+      mounted() {
+          this.getOrderList()
+      },
+      methods: {
+            getOrderList() {
+                  this.axios.get("/orders").then(res => {
+                      this.list = res.list
+                  });
+            },
+            goPay(orderNo){
+                // this.$router.push('/order/list')
+                // this.$router.push({
+                //     name:'order-list',
+                    // params:{
+                    //     orderNo
+                    // }
+                    //  query:{
+                //         orderNo
+                //     }
+                // })
+                this.$router.push({
+                    path:'/order/list',
+                    query:{
+                        orderNo
+                    }
+                })
+            }
+      }
+};
 </script>
-<style scoped>
-
+<style  lang="scss">
+@import "./../assets/scss/config.scss";
+@import "./../assets/scss/mixin.scss";
+.order-list {
+      .wrapper {
+            background-color: $colorJ;
+            padding-top: 33px;
+            padding-bottom: 110px;
+            .order-box {
+                  .order {
+                        border: 1px solid $colorF;
+                        background-color: $colorG;
+                        margin-bottom: 31px;
+                        // &:last-child {
+                        //       margin-bottom: 0;
+                        // }
+                        .order-title {
+                              height: 74px;
+                              background-color: $colorK;
+                              display: flex;
+                              align-items: center;
+                              justify-content: space-between;
+                              padding: 0 43px;
+                              font-size: 16px;
+                              color: $colorC;
+                              .item-info {
+                                    span {
+                                          margin: 0 9px;
+                                    }
+                              }
+                              .money {
+                                    font-size: 26px;
+                                    color: $colorB;
+                              }
+                        }
+                        .order-content {
+                              padding: 0 43px;
+                              .good-box {
+                                    width: 88%;
+                                    .good-list {
+                                          display: flex;
+                                          align-items: center;
+                                          height: 145px;
+                                          .good-img {
+                                                width: 112px;
+                                                img {
+                                                      width: 100%;
+                                                      // height: 100%;
+                                                      background-color: $colorJ;
+                                                }
+                                          }
+                                          .good-name {
+                                                font-size: 20px;
+                                                color: $colorA;
+                                          }
+                                    }
+                              }
+                              .good-state {
+                                    height: 145px;
+                                    line-height: 145px;
+                                    font-size: 20px;
+                                    color: $colorA;
+                                    a {
+                                          color: $colorA;
+                                    }
+                              }
+                        }
+                  }
+            }
+      }
+}
 </style>
