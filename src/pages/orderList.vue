@@ -62,6 +62,15 @@
                                     </div>
                               </div>
                               <no-data v-if="!Loading && list.length==0"></no-data>
+                              <el-pagination
+                                    class="pagination"
+                                    background
+                                    layout="prev, pager, next,jumper"
+                                    :pageSize="pageSize"
+                                    :pageNum="pageNum"
+                                    :total="total"
+                                    @current-change="handleChange"
+                              ></el-pagination>
                         </div>
                   </div>
             </div>
@@ -70,19 +79,24 @@
 <script>
 import OrderHeader from "./../components/orderHeader";
 import Loading from "../components/Loading";
-import NoData from "../components/NoData"
+import NoData from "../components/NoData";
+import { Pagination } from "element-ui";
 export default {
       name: "order-list",
       data() {
             return {
                   list: [],
-                  Loading: true
+                  Loading: true,
+                  pageSize: 10,
+                  pageNum: 1,
+                  total: 0
             };
       },
       components: {
             OrderHeader,
             Loading,
-            NoData
+            NoData,
+            [Pagination.name]: Pagination
       },
       mounted() {
             this.getOrderList();
@@ -90,9 +104,14 @@ export default {
       methods: {
             getOrderList() {
                   this.axios
-                        .get("/orders")
+                        .get("/orders", {
+                              params: {
+                                    pageNum: this.pageNum
+                              }
+                        })
                         .then(res => {
                               this.list = res.list || [];
+                              this.total = res.total;
                               this.Loading = false;
                         })
                         .catch(() => {
@@ -116,6 +135,10 @@ export default {
                               orderNo
                         }
                   });
+            },
+            handleChange(pageNum) {
+                  this.pageNum = pageNum;
+                  this.getOrderList();
             }
       }
 };
@@ -188,6 +211,13 @@ export default {
                               }
                         }
                   }
+            }
+            .pagination {
+                  text-align: right;
+            }
+            .el-pagination.is-background .el-pager li:not(.disabled).active {
+                  background-color: #ff6700;
+                  color: #ffffff;
             }
       }
 }
