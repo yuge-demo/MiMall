@@ -1,5 +1,10 @@
 <template>
       <div class="order-confirm">
+            <order-header title="订单确认">
+                  <template slot="tip">
+                        <span>{{""}}</span>
+                  </template>
+            </order-header>
             <svg
                   version="1.1"
                   xmlns="http://www.w3.org/2000/svg"
@@ -244,6 +249,7 @@
 </template>
 <script>
 import Model from "./../components/Model";
+import OrderHeader from "./../components/orderHeader"
 import { Message } from "element-ui";
 export default {
       name: "order-confirm",
@@ -257,11 +263,12 @@ export default {
                   userAction: "", //用户点击行为   0 就是新增   1就是 编辑  2就是删除
                   showDelModel: false, //是否显示删除框
                   showEditModel: false, //是否显示编辑，新增列表框
-                  checkIndex: 0 //是否选中
+                  checkIndex: 0, //是否选中
             };
       },
       components: {
-            Model
+            Model,
+            OrderHeader
       },
       mounted() {
             this.getAddressList();

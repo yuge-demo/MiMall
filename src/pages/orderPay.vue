@@ -1,5 +1,10 @@
 <template>
       <div class="order-pay">
+            <order-header title="订单支付">
+                  <template slot="tip">
+                        <span>请谨防钓鱼链接或诈骗电话，了解更多</span>
+                  </template>
+            </order-header>
             <div class="wrapper">
                   <div class="container">
                         <div class="order-wrap">
@@ -94,6 +99,7 @@
 </template>
 <script>
 import ScanPayCode from "../components/ScanPayCode";
+import OrderHeader from "../components/orderHeader"
 import Model from "../components/Model"
 import { Message } from "element-ui";
 import QRCode from "qrcode";
@@ -115,7 +121,8 @@ export default {
       },
       components: {
             ScanPayCode,
-            Model
+            Model,
+            OrderHeader
       },
       mounted() {
             this.getOrderDetail();
