@@ -81,6 +81,7 @@ import OrderHeader from "./../components/orderHeader";
 import Loading from "../components/Loading";
 import NoData from "../components/NoData";
 import { Pagination } from "element-ui";
+var infiniteScroll = require("vue-infinite-scroll");
 export default {
       name: "order-list",
       data() {
@@ -92,6 +93,7 @@ export default {
                   total: 0
             };
       },
+      directives: { infiniteScroll },
       components: {
             OrderHeader,
             Loading,
