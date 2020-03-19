@@ -48,10 +48,12 @@
                                                 </div>
                                           </div>
                                           <div class="good-state fr" v-if="item.status == 10">
-                                                <a
-                                                      href="javascript:;"
-                                                      @click="goPay(item.orderNo)"
-                                                >{{item.statusDesc}}</a>
+                                                <!-- <router-link to="/order/pay?orderNo=item.orderNo"> -->
+                                                      <a
+                                                            href="javascript:;"
+                                                            @click="goPay(item.orderNo)"
+                                                      >{{item.statusDesc}}</a>
+                                                <!-- </router-link> -->
                                           </div>
                                           <div class="good-state fr" v-else>
                                                 <a
@@ -132,7 +134,7 @@ export default {
                   //     }
                   // })
                   this.$router.push({
-                        path: "/order/list",
+                        path: "/order/pay",
                         query: {
                               orderNo
                         }

@@ -12,12 +12,12 @@ module.exports = {
             }
         }
     },
-    // publicPath:'/app',
-    // outputDir:'dist',
-    // indexPath:'index2.html',
-    // lintOnSave:false,   //这个可以关闭esline
-//     productionSourceMap: true,
-//     chainWebpack: (config) => {
-//         config.plugins.delete('prefetch');
-//     }
+    publicPath: '/app',     //项目前面加  /app
+    outputDir: 'dist',         //这是项目文件的名称
+    indexPath: 'index.html',     //项目入口名称 单页面index.html
+    lintOnSave: false,   //这个可以关闭esline
+    productionSourceMap: true,     //隐藏main.js
+    // chainWebpack: (config) => {
+    //     config.plugins.delete('prefetch');
+    // }
 }

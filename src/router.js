@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './pages/home.vue'
-import Login from './pages/login.vue'
+// import Login from './pages/login.vue'
 import Index from './pages/index.vue'
-import Product from './pages/product.vue'
-import Detail from './pages/detail.vue'
+// import Product from './pages/product.vue'
+// import Detail from './pages/detail.vue'
 import Cart from './pages/cart.vue'
-import Order from './pages/order.vue'
+// import Order from './pages/order.vue'
 import OrderConfirm from './pages/orderConfirm.vue'
-import OrderList from './pages/orderList.vue'
+// import OrderList from './pages/orderList.vue'
 import OrderPay from './pages/orderPay.vue'
 import AliPay from "./pages/aliPay.vue"
 
@@ -32,18 +32,19 @@ export default new Router({
                 {
                     path: '/product/:id',
                     name: 'product',
-                    component: Product,
+                    component:  resolve => require(['./pages/index.vue'] , resolve),
                 },
                 {
                     path: '/detail/:id',
                     name: 'detail',
-                    component: Detail,
+                    component:  resolve => require(['./pages/detail.vue'] , resolve),
                 }
             ]
         },
         {
             path: '/login',
-            component: Login
+            // component:  resolve => require(['./pages/login.vue'] , resolve),
+            component: () => import('./pages/login.vue')
         },
         {
             path: '/cart',
@@ -53,12 +54,12 @@ export default new Router({
         {
             path: '/order',
             name: 'order',
-            component: Order,
+            component: () => import('./pages/order.vue'),
             children: [
                 {
                     path: 'list',
                     name: 'order-list',
-                    component: OrderList
+                    component:  () => import('./pages/orderList.vue'),
                 },
                 {
                     path: 'confirm',
