@@ -17,7 +17,7 @@ module.exports = {
     indexPath: 'index.html',     //项目入口名称 单页面index.html
     lintOnSave: false,   //这个可以关闭esline
     productionSourceMap: true,     //隐藏main.js
-    // chainWebpack: (config) => {
-    //     config.plugins.delete('prefetch');
-    // }
+    chainWebpack: (config) => {          //防止一次性加載所有文件0.js  1.js 2.js ........
+        config.plugins.delete('prefetch');
+    }
 }
