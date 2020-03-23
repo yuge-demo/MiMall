@@ -149,7 +149,7 @@ export default {
                               shadowOffset: 100,
                               shadowScale: 0.6
                         },
-                        //分页器
+                        // 分页器
                         pagination: {
                               el: ".swiper-pagination",
                               clickable: true

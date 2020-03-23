@@ -12,7 +12,6 @@
                               <slot class="body"></slot>
                         </div>
                         <div class="model-footer">
-                              
                               <a
                                     href="javascript:;"
                                     class="btn"
@@ -33,7 +32,11 @@
                                           sureText
                                           }}
                                     </a>
-                                    <a href="javascript:;" class="btn btn-default" @click="$emit('cancle')">
+                                    <a
+                                          href="javascript:;"
+                                          class="btn btn-default"
+                                          @click="$emit('cancle')"
+                                    >
                                           {{
                                           cannleText
                                           }}
@@ -71,8 +74,81 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "./../assets/scss/mixin.scss";
 @import "./../assets/scss/config.scss";
 @import "./../assets/scss/model.scss";
+// .model {
+//       position: fixed;
+//       top: 0;
+//       right: 0;
+//       width: 100%;
+//       height: 100%;
+//       .mask {
+//             position: fixed;
+//             top: 0;
+//             right: 0;
+//             width: 100%;
+//             height: 100%;
+//             background-color: $colorD;
+//             opacity: 0.5;
+//       }
+//       .slide-enter-active {
+//             top: 0;
+//       }
+//       .slide-leave-active {
+//             top: -100%;
+//       }
+
+//       .slide-enter {
+//             top: -100%;
+//       }
+//       .slide-leave-to {
+//             top: 0;
+//       }
+//       .model-dialog {
+//             position: absolute;
+//             top: 40%;
+//             left: 50%;
+//             width: 660px;
+//             // @include position(absolute, 40%, 50%, 660px, auto);
+//             background-color: $colorG;
+//             transform: translate(-50%, -50%);
+//             .model-header {
+//                   height: 60px;
+//                   line-height: 60px;
+//                   font-size: 16px;
+//                   padding: 0 10px;
+//                   position: relative;
+//                   .icon-close {
+//                         position: absolute;
+//                         top: 20px;
+//                         right: 20px;
+//                         width: 16px;
+//                         height: 16px;
+//                         background: url(/imgs/icon-close.png) no-repeat center;
+//                         background-size: contain;
+//                         &:hover {
+//                               // transform: scale(1.5);
+//                               // transform-origin: center center;
+//                               transform: rotate(45deg);
+//                         }
+//                   }
+//             }
+//             .model-body {
+//                   height: 100px;
+//                   line-height: 100px;
+//                   padding-left: 45px;
+//                   // padding: 42px 40px 54px;
+//                   font-size: 14px;
+//                   border-top: 1px solid $colorE;
+//                   border-bottom: 1px solid $colorE;
+//             }
+//             .model-footer {
+//                   height: 82px;
+//                   line-height: 82px;
+//                   text-align: center;
+//             }
+//       }
+// }
 </style>
