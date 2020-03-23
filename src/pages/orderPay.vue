@@ -144,17 +144,17 @@ export default {
             paySubmit(payType) {
                   if (payType == 1) {
                         window.open(
-                              "/#/order/alipay?orderId=" + this.orderNo,
-                              "-blank"
+                              "/app/#/order/aliPay?orderId=" + this.orderNo,
+                              "_blank"
                         );
-                        // this.$router.push('/order/alipay?orderId='+this.orderNo,'-blank')
+                        // this.$router.push('/order/alipay?orderId='+this.orderNo,'_blank')
                   } else {
                         this.axios
                               .post("/pay", {
                                     orderId: this.orderNo,
                                     orderName: "weChat-pay", //扫码支付时订单名称
                                     amount: 0.01, //单位元
-                                    payType: 2 //1支付宝，2微信
+                                    payType: 2//1支付宝，2微信
                               })
                               .then(res => {
                                     let content = res.content;

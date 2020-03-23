@@ -40,7 +40,7 @@ export default {
                         setTimeout(()=>{
                               //提交
                               document.forms[0].submit();
-                        },100)
+                        },500)
                   })
             }
       }
