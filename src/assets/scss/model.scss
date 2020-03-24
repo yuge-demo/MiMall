@@ -2,27 +2,27 @@
   @include position(fixed);
   z-index: 10;
   transition: top 0.5s;
+  .slide-enter-active {
+    top: 0;
+  }
+  .slide-leave-active {
+    top: -100%;
+  }
+  
+  .slide-enter {
+    top: -100%;
+  }
   .mask {
     @include position(fixed);
     background-color: $colorD;
     opacity: 0.5;
   }
-  // .slide-enter-active {
-  //   top: 0;
-  // }
-  // .slide-leave-active {
-  //   top: -100%;
-  // }
-
-  // .slide-enter {
-  //   top: -100%;
-  // }
   // .slide-leave-to {
   //   top: 0;
   // }
-  // //   .slide-lever-to {
-  //     top: 0;
-  //   }
+  //   .slide-lever-to {
+  // top: 0;
+  // }
   .model-dialog {
     @include position(absolute, 40%, 50%, 660px, auto);
     background-color: $colorG;

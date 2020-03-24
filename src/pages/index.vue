@@ -281,7 +281,7 @@ export default {
 @import "../assets/scss/config.scss";
 @import "../assets/scss/base.scss";
 .index {
-      .swiper-box {
+      .swiper-box { 
             position: relative;
             .nav-menu {
                   position: absolute;
@@ -391,7 +391,7 @@ export default {
             }
       }
       .product-box {
-            padding-top: 30px 0 50px;
+            padding: 30px 0 50px;
             background-color: $colorJ;
             .container {
                   h2 {
