@@ -133,6 +133,9 @@ export default {
 @import "./../assets/scss/mixin.scss";
 @import "./../assets/scss/button.scss";
 .product {
+      .btn{
+            margin-left: 10px;
+      }
       .content {
             .item-bg {
                   background: url("/imgs/product/product-bg-1.png") no-repeat
@@ -269,7 +272,7 @@ export default {
                                     width: 100%;
                                     height: 100%;
                                     object-fit: cover;
-                                    outline: none;
+                                    // outline: none;
                               }
                               .icon-close {
                                     position: absolute;

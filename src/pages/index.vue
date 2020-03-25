@@ -47,7 +47,7 @@
                         <!-- 控制自动轮播，下一章 -->
                         <swiper :options="swiperOption">
                               <swiperSlide v-for="item in slideList" :key="item.id">
-                                    <a :href="'/#/product/' + item.id">
+                                    <a    :href="'/app/#/product/' + item.id">
                                           <img :src="item.img" />
                                     </a>
                               </swiperSlide>

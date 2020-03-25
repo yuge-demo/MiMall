@@ -155,12 +155,14 @@ export default {
                                     padding: 18px;
                               }
                         }
-                        .btn {
-                              width: 100%;
-                              height: 50px;
-                              line-height: 50px;
-                              margin-top: 10px;
-                              font-size: 16px;
+                        .btn-box {
+                              .btn {
+                                    width: 100%;
+                                    height: 50px;
+                                    line-height: 50px;
+                                    margin-top: 10px;
+                                    font-size: 16px;
+                              }
                         }
                         .tips {
                               margin-top: 14px;
