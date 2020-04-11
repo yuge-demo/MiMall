@@ -15,7 +15,7 @@
                                           <div class="item-info">
                                                 {{item.createTime}}
                                                 <span>|</span>
-                                                {{item.receiverName}}
+                                                {{item.receiverName }}
                                                 <span>|</span>
                                                 订单号:{{item.orderNo}}
                                                 <span>|</span>
@@ -49,10 +49,10 @@
                                           </div>
                                           <div class="good-state fr" v-if="item.status == 10">
                                                 <!-- <router-link to="/order/pay?orderNo=item.orderNo"> -->
-                                                      <a
-                                                            href="javascript:;"
-                                                            @click="goPay(item.orderNo)"
-                                                      >{{item.statusDesc}}</a>
+                                                <a
+                                                      href="javascript:;"
+                                                      @click="goPay(item.orderNo)"
+                                                >{{item.statusDesc}}</a>
                                                 <!-- </router-link> -->
                                           </div>
                                           <div class="good-state fr" v-else>

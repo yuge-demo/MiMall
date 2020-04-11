@@ -32,7 +32,7 @@
                         </div>
                   </div>
             </div>
-            <div class="footer">
+            <div class="footer">   
                   <div class="footer-link">
                         <a href="https://www.mi.com/" target="_blank">小米商城</a>
                         <span>|</span>
